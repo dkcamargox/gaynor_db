@@ -2,4 +2,5 @@
 /.idea
 /__pycache__
 /gaynor_db
-*.txt
+database.txt
+database2.txt
