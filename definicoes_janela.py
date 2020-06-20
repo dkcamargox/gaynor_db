@@ -3,9 +3,9 @@ from tkinter import Tk, Button, Label, Entry, PhotoImage, CENTER
 import pickle
 db = "database.txt"
 
-def define_icon(a: object, icon) -> object:
+def define_icon(janela: object, icon) -> object:
     img_icon = PhotoImage(file=os.path.join(icon))
-    a.tk.call('wm', 'iconphoto', a._w, img_icon)
+    janela.tk.call('wm', 'iconphoto', janela._w, img_icon)
 
 
 def define_tam_janela(janela: object, size):
