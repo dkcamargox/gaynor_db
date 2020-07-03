@@ -8,7 +8,7 @@ icon = "gaynor.ico"
 janela = tk.Tk()
 janela.title("Conta Clientes")  
 janela.geometry("250x50")
-janela["bg"] = "#f538c3"
+janela["bg"] = "#fecdd0"
 #setting icon
 img_icon = tk.PhotoImage(file=os.path.join(icon))
 janela.tk.call('wm', 'iconphoto', janela._w, img_icon)
