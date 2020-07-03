@@ -1,6 +1,6 @@
 from definicoes_janela import define_janela, define_maior_str, espacoNoFinal, salva, carrega, define_tam_janela, buscap_nome, buscap_sapato,busca_multiplos_nomes
-from tkinter import Tk, Button, Label, Entry, PhotoImage, CENTER, W
-
+from tkinter import Tk, Button, Label, Entry, PhotoImage, CENTER, W, Frame
+from scrollable_frame import ScrollableFrame
 # @ FEITO POR DOGÃO
 # @ DATA 27.09.2019
 # @ TODOS DIREITOS RESERVADOS
@@ -753,30 +753,49 @@ class Programa_Win(Tk):
         self.Voltar_editar.place(x=1090, y=250)
 
     # Terminada Abaixo
-    def Busca_p_sapato_bt_clk(self, Initial):
+    def janela_listagem_mesmo_tamanho_pe(self, Initial):
 
         self.janela_clear()
-        # layoutjhgf
+
+        # layout align
 
         self.Aling: int = 30
 
 
-        self.lista_mesmo_p = []
+        self.lista_multiplo_pe = []
         self.sapato_busca_g = str(self.Sapato_janela_buscar_entry.get()).upper()
-        self.lista_mesmo_p = buscap_sapato(self.sapato_busca_g, self.lista_clientes)
+        self.lista_multiplo_pe = buscap_sapato(self.sapato_busca_g, self.lista_clientes)
         Initial
-        if self.lista_mesmo_p == []:
+
+        # se a lista de clientes com o mesmo pé estiver vazia
+        if self.lista_multiplo_pe == []:
 
             self.janela_clear()
 
-            self.titulo_buscar_E = Label(self, font=("Times New Roman", 24),
-                                         text="Nenhuma cliente com \n   esse tamanho de pé", bg="#fff", width=30,
-                                         anchor=CENTER, bd=20)
+            self.titulo_buscar_E = Label(
+                self, 
+                font=("Times New Roman", 24),
+                text="Nenhuma cliente com \n   esse tamanho de pé", 
+                bg="#fff", 
+                width=30,
+                anchor=CENTER, 
+                bd=20
+            )
 
-            self.Voltar_buuscar_E = Button(self, font=("Times New Roman", 20), text="Voltar", cursor="exchange",
-                                           command=self.janela_buscar, highlightbackground=THECOLOR,
-                                           highlightcolor=THECOLOR, fg=THECOLOR, bg="white", activebackground=THECOLOR,
-                                           activeforeground="white", bd=0)
+            self.Voltar_buuscar_E = Button(
+                self, 
+                font=("Times New Roman", 20), 
+                text="Voltar", 
+                cursor="exchange",
+                command=self.janela_buscar, 
+                highlightbackground=THECOLOR,
+                highlightcolor=THECOLOR, 
+                fg=THECOLOR, 
+                bg="white", 
+                activebackground=THECOLOR,
+                activeforeground="white", 
+                bd=0
+            )
 
             self.Voltar_buuscar_E.bind('<Return>', lambda event: self.janela_buscar())
             
@@ -784,130 +803,150 @@ class Programa_Win(Tk):
 
             self.titulo_buscar_E.place(x=430, y=15)
             self.Voltar_buuscar_E.place(x=660, y=240)
-
+        
         else:
 
             self.janela_clear()
 
             lista_tam_nomes = []
-            self.TodosBotoes = []
-            self.lista_label_clientes = []
-
-            for x in range(0, len(self.lista_mesmo_p)):
+            for x in range(0, len(self.lista_multiplo_pe)):
                 lista_tam_nomes.append(len(self.lista_clientes[x][0]))
             m_tam = define_maior_str(lista_tam_nomes)
 
-            self.titulo_buscar = Label(self, font=("Times New Roman", 20),
-                                       text="  " + "Nome:" + (m_tam) * "  " + "Sapato:",
-                                       width=len("  " + "Nome:" + (m_tam) * "  " + " Sapato:"), bg="#fff", anchor=W)
+            # width general
+            geral_width_label = 80
+
+            # definindo widgets
+
+            # label titulo
+
+            self.titulo_buscar = Label(
+                self, 
+                font=("Times New Roman", 20),
+                text="  " + "Nome:" + (m_tam) * "  " + "Sapato:",
+                width=geral_width_label + 6, 
+                bg="#fff", 
+                anchor=W
+            )
+
+            # scrollable frame
+
+            self.ScrollableFrameSapatos = ScrollableFrame(
+                self, 
+                width=1316, 
+                height=512,
+                bg='#fecdd0',
+                highlightbackground='#facacd'
+            )
 
             
+            # adiciona clientes no frame arrastavel
+            def adicionaBlocosClientesNoScrollableFrame(frame: ScrollableFrame, listaClientes: list):
+                
+                # se ja tiver carregado um numero igual ao tamanho da lista retorna
+                if frame.numberOfChilds == len(listaClientes):
+                    return
+                
+                # corta a lista entre o numero de clientes que ja foram adicionadas e umintervalo de 10 clientes
+                listaClientesAdicionaraNoFrame = listaClientes[frame.numberOfChilds:frame.numberOfChilds + 10]
+                
+                for cliente in listaClientesAdicionaraNoFrame:
+                    
+                    # bloco para cada cliente
+                    FrameCLienteSapatos = Frame(
+                        self.ScrollableFrameSapatos.scrollable_frame,
+                        bg='#fecdd0'
+                    )
+                    FrameCLienteSapatos.columnconfigure(0, weight=1)
+                    FrameCLienteSapatos.columnconfigure(1, weight=2)
 
-            for n in self.lista_mesmo_p:
-                self.lista_label_clientes.append(Label(self, font=("Times New Roman", 20),
-                                                       text="  " + self.lista_clientes[n][0] + (m_tam - len(
-                                                           self.lista_clientes[n][0])) * "  " + "\t" +
-                                                            self.lista_clientes[n][1],
-                                                       width=len("  " + "Nome:" + (m_tam) * "  " + "\tSapato:"),
-                                                       bg="#fff", height=1,
-                                                       anchor=W))
+                    # label da cliente
+                    LabelClientesSapatos = Label(
+                        FrameCLienteSapatos,
+                        font=("Times New Roman", 20),
+                        text=f"  {self.lista_clientes[cliente][0]}" + (m_tam - len(self.lista_clientes[cliente][0])) * "  "+f"\t{self.lista_clientes[cliente][1]}",
+                        width=geral_width_label,
+                        bg="#fff",
+                        anchor=W
+                    )
+                    
+                    # botao da cliente
+                    BotaoClienteSapatos = Button(
+                        FrameCLienteSapatos,
+                        font=("Times New Roman", 14),
+                        text="Ver Mais", bg="#ffebff",
+                        highlightcolor="white", 
+                        cursor='hand2',
+                        highlightbackground="white", 
+                        fg=THECOLOR, 
+                        height=1,
+                        activebackground=THECOLOR, 
+                        activeforeground="white", 
+                        bd=0
+                    )
 
-                self.BotaoUsuario = Button(self, font=("Times New Roman", 14), text="Ver Mais", bg="#ffebff",
-                                           highlightcolor="white", cursor="hand2",
-                                           highlightbackground="white", fg=THECOLOR, height=1,
-                                           activebackground=THECOLOR, activeforeground="white", bd=0)
+                    # comando e binds
+                    BotaoClienteSapatos["command"] = lambda Salvo=cliente: self.janela_usuario_escolhido(Salvo, Initial, 'sapato')
+                    BotaoClienteSapatos.bind('<Return>', lambda event, Salvo=cliente: self.janela_usuario_escolhido(Salvo, Initial, 'sapato'))
 
-                self.BotaoUsuario["command"] = lambda Salvo=n: self.janela_usuario_escolhido(Salvo, Initial, 'sapato')
-                self.BotaoUsuario.bind('<Return>', lambda event, Salvo=n: self.janela_usuario_escolhido(Salvo, Initial, 'sapato'))
+                    # desenho dentro do frame
+                    LabelClientesSapatos.grid(column=0, row=0, pady=10,sticky="wens")
+                    BotaoClienteSapatos.grid(column=1, row=0, pady=10, sticky="wens")
 
-                self.TodosBotoes.append(self.BotaoUsuario)
-            if len(self.lista_mesmo_p) <= 11:
-                for y in range(0, len(self.lista_mesmo_p)):
-                    self.lista_label_clientes[y].place(x=self.Aling, y=(60 + (45 * y)))
-                    self.TodosBotoes[y].place(x=(len("  " + "Nome:" + (m_tam) * "  " + " Sapato:")) * 11,
-                                              y=(62 + (45 * y)))
-                self.W = [self.titulo_buscar, self.lista_label_clientes, self.TodosBotoes]
-            else:
-                for y in range(0, 11):
-                    self.lista_label_clientes[y].place(x=self.Aling, y=(60 + (45 * y)))
-                    self.TodosBotoes[y].place(x=(len("  " + "Nome:" + (m_tam) * "  " + " Sapato:")) * 11,
-                                              y=(62 + (45 * y)))
-                self.W = [self.titulo_buscar, self.lista_label_clientes, self.TodosBotoes]
-                self.ProxPage = Button(self,font=("Times New Roman", 20),  text="Proxima Página", cursor="hand2", highlightbackground="white",
-                                       highlightcolor="white", bd=0, bg="white", fg=THECOLOR, activebackground=THECOLOR,
-                                       activeforeground="white")
-                self.ProxPage["command"] = lambda: self.ProxPageFuncSapato(11)
-                self.ProxPage.bind('<Return>', lambda event: self.ProxPageFuncSapato(11))
-                self.ProxPage.place(x=1100, y=600)
-                self.W.append(self.ProxPage)
-
+                    # desenho do bloco de cliente  dentroframe arrastavel
+                    FrameCLienteSapatos.grid(padx=5)
+                
+                # atualiza o numero de clientes carregadas
+                frame.numberOfChilds = frame.numberOfChilds + len(listaClientesAdicionaraNoFrame)
             
-            self.Voltar_buuscar = Button(self, font=("Times New Roman", 18), text="Voltar",
-                                         cursor="hand2", highlightbackground="white", highlightcolor="white",
-                                         bd=0, bg="white", fg=THECOLOR, activebackground=THECOLOR,
-                                         activeforeground="white")
+            # se é a primeria vez que carrega o frame arrastavel
+            if self.ScrollableFrameSapatos.scrollbar.get()[1] == 0.0:
+                adicionaBlocosClientesNoScrollableFrame(self.ScrollableFrameSapatos, self.lista_multiplo_pe)
+            
+            # setando a função para evento onEnd do Frame Arrastavel
+            self.ScrollableFrameSapatos.setOnEnd(lambda : adicionaBlocosClientesNoScrollableFrame(self.ScrollableFrameSapatos, self.lista_multiplo_pe))
 
+
+
+            # definindo botão de voltar
+            self.Voltar_buuscar = Button(
+                self,
+                font=("Times New Roman", 18), 
+                text="Voltar",
+                cursor="hand2", 
+                highlightbackground="white", 
+                highlightcolor="white",
+                bd=0, 
+                bg="white", 
+                fg=THECOLOR, 
+                activebackground=THECOLOR,
+                activeforeground="white"
+            )
+
+            #comandos de botões voltar
             self.Voltar_buuscar["command"] = lambda: self.janela_buscar()
+
+            # bind botão voltar
             self.Voltar_buuscar.bind('<Return>', lambda event: self.janela_buscar())
-            
-            self.W.append(self.Voltar_buuscar)
-            
-            self.titulo_buscar.place(x=self.Aling, y=15)
-            self.geometry("1400x800")
+
+            # self.W
+            self.W = [ self.titulo_buscar, self.ScrollableFrameSapatos, self.Voltar_buuscar ]
+
+            # placing widgets
+            self.ScrollableFrameSapatos.place(x = 30, y = 60 )
+            self.titulo_buscar.place(x=self.Aling + 5, y=15)
             self.Voltar_buuscar.place(x=100, y=600)
 
     # Terminada Abaixo
-    def PrevPageFuncSapato(self, Numero):
-        self.PrevPage.place_forget()
-        Numero -= 11
-        self.ProxPageFuncSapato(Numero)
+    def janela_listagem_mesmo_nome(self, Initial):
 
-    # Terminada Abaixo
-    def ProxPageFuncSapato(self, numero):
-        self.janela_clear()
-        self.titulo_buscar.place(x=self.Aling, y=15)
-        self.geometry("1400x800")
-        self.Voltar_buuscar.place(x=100, y=600)
-        lista_tam_nomes = []
-        for x in range(0, len(self.lista_mesmo_p)):
-            lista_tam_nomes.append(len(self.lista_clientes[x][0]))
-        m_tam = define_maior_str(lista_tam_nomes)
-        if len(self.lista_mesmo_p)-numero <= 11:
-            for y, x in zip(range(numero, len(self.lista_mesmo_p)), range(0 , (len(self.lista_mesmo_p)-numero))):
-
-                self.lista_label_clientes[y].place(x=self.Aling, y=(60 + (45 * x)))
-                self.TodosBotoes[y].place(x=(len("  " + "Nome:" + (m_tam) * "  " + " Sapato:")) * 11,
-                                          y=(62 + (45 * x)))
-            self.W = [self.titulo_buscar, self.Voltar_buuscar, self.lista_label_clientes, self.TodosBotoes]
-
-        else:
-
-            for y, x in zip(range(numero, numero+11) , range(0,11) ):
-                self.lista_label_clientes[y].place(x=self.Aling, y=(60 + (45 * x)))
-                self.TodosBotoes[y].place(x=(len("  " + "Nome:" + (m_tam) * "  " + " Sapato:")) * 11,
-                                          y=(62 + (45 * x)))
-            self.W = [self.titulo_buscar, self.Voltar_buuscar, self.lista_label_clientes, self.TodosBotoes]
-            self.ProxPage = Button(self,font=("Times New Roman", 20), text="Proxima Página", cursor="hand2", highlightbackground="white",
-                                   highlightcolor="white", bd=0, bg="white", fg=THECOLOR, activebackground=THECOLOR,
-                                   activeforeground="white")
-            self.ProxPage["command"] = lambda: self.ProxPageFuncSapato(numero+11)
-            self.ProxPage.bind('<Return>', lambda event: self.ProxPageFuncSapato(numero+11))
-            self.ProxPage.place(x=1100, y=600)
-            self.W.append((self.ProxPage))
-        if numero != 0:
-
-            self.PrevPage = Button(self,font=("Times New Roman", 20), text="Página Anterior", cursor="hand2", highlightbackground="white",
-                                   highlightcolor="white", bd=0, bg="white", fg=THECOLOR, activebackground=THECOLOR,
-                                   activeforeground="white")
-            self.PrevPage["command"] = lambda: self.PrevPageFuncSapato(numero)
-            self.PrevPage.bind('<Return>', lambda event: self.PrevPageFuncSapato(numero))
-            self.W.append(self.PrevPage)
-            self.PrevPage.place(x=900, y=600)
-
-    # Terminada Abaixo
-    def Busca_p_nome_bt_clk(self, Initial):
         self.janela_clear()
             
+        # layout align 
+
+        self.Aling: int = 30
+        
+        
         self.lista_multiplo_nome = []
         self.nome_buscar_g = str(self.Nome_janela_buscar_entry.get()).upper()
         self.lista_multiplo_nome = busca_multiplos_nomes(self.nome_buscar_g, self.lista_clientes)
@@ -915,14 +954,32 @@ class Programa_Win(Tk):
 
         # se não tem nenhuma cliente com esse nome ou com essas iniciais
         if self.lista_multiplo_nome == []:
+            
             self.janela_clear()
-            self.titulo_buscar_E = Label(self, font=("Times New Roman", 24), text="Cliente não Cadastrada",
-                                            bg="#fff",
-                                            width=30, anchor=CENTER, bd=20)
-            self.Voltar_buuscar_E = Button(self, font=("Times New Roman", 20), text="Voltar", cursor="hand2",
-                                            command=self.janela_buscar, highlightbackground=THECOLOR,
-                                            highlightcolor=THECOLOR, fg=THECOLOR, bg="white", activebackground=THECOLOR,
-                                            activeforeground="white", bd=0)
+            
+            self.titulo_buscar_E = Label(
+                self, 
+                font=("Times New Roman", 24), 
+                text="Cliente não Cadastrada",
+                bg="#fff",
+                width=30, 
+                anchor=CENTER, 
+                bd=20
+            )
+
+            self.Voltar_buuscar_E = Button(
+                self, 
+                font=("Times New Roman", 20), 
+                text="Voltar", 
+                cursor="hand2",
+                command=self.janela_buscar, 
+                highlightbackground=THECOLOR,
+                highlightcolor=THECOLOR, 
+                fg=THECOLOR, bg="white", 
+                activebackground=THECOLOR,
+                activeforeground="white", 
+                bd=0
+            )
 
             # bind
             self.Voltar_buuscar_E.bind('<Return>', lambda event: self.janela_buscar())
@@ -935,134 +992,135 @@ class Programa_Win(Tk):
         # caso contrario
         else:
             # layout
-            self.Aling: int = 30
             lista_tam_nomes = []
-            self.lista_label_clientes_nomes = []
-            self.BotoesUsuarios_nomes = []
             for x in range(0, len(self.lista_multiplo_nome)):
                 lista_tam_nomes.append(len(self.lista_clientes[x][0]))
             m_tam = define_maior_str(lista_tam_nomes)
+            
+            # width general
+            geral_width_label = 80
 
-
+            
             # definindo os widgets
-            self.titulo_buscar = Label(self, font=("Times New Roman", 20),
-                                       text="  " + "Nome:" + (m_tam) * "  " + "Sapato:",
-                                       width=len("  " + "Nome:" + (m_tam) * "  " + " Sapato:"), bg="#fff", anchor=W)
 
-            # definindo lista de clientes label e botão 
-            for n in self.lista_multiplo_nome:
-                self.lista_label_clientes_nomes.append(Label(self, font=("Times New Roman", 20),
-                                                       text="  " + self.lista_clientes[n][0] + (m_tam - len(
-                                                           self.lista_clientes[n][0])) * "  " + "\t" +
-                                                            self.lista_clientes[n][1],
-                                                       width=len("  " + "Nome:" + (m_tam) * "  " + "\tSapato:"),
-                                                       bg="#fff",
-                                                       anchor=W))
+            # label titulo
 
-                self.BotaoUsuario_nomes = Button(self, font=("Times New Roman", 14), text="Ver Mais", bg="#ffebff",
-                                           highlightcolor="white", cursor='hand2',
-                                           highlightbackground="white", fg=THECOLOR, height=1,
-                                           activebackground=THECOLOR, activeforeground="white", bd=0)
+            self.titulo_buscar = Label(
+                self,
+                font=("Times New Roman", 20),
+                text="  " + "Nome:" + (m_tam) * "  " + "Sapato:",
+                width=geral_width_label + 6,
+                bg="#fff",
+                anchor=W
+            )
 
-                self.BotaoUsuario_nomes["command"] = lambda Salvo=n: self.janela_usuario_escolhido(Salvo, Initial, 'nome')
-                self.BotaoUsuario_nomes.bind('<Return>', lambda event, Salvo=n: self.janela_usuario_escolhido(Salvo, Initial, 'nome'))
+        
+            # scrollable frame
 
-                self.BotoesUsuarios_nomes.append(self.BotaoUsuario_nomes)
+            self.ScrollableFrameNomes = ScrollableFrame(
+                self, 
+                width=1316, 
+                height=512,
+                bg='#fecdd0',
+                highlightbackground='#facacd'
+            )
 
+            # adiciona clientes no frame arrastavel
+            def adicionaBlocosClientesNoScrollableFrame(frame: ScrollableFrame, listaClientes: list):
                 
-            self.W = [self.titulo_buscar]
-            
-            # placing
-            if len(self.lista_multiplo_nome) <= 11:
-                for y in range(0, len(self.lista_multiplo_nome)):
-                    self.lista_label_clientes_nomes[y].place(x=self.Aling, y=(60 + (45 * y)))
-                    self.BotoesUsuarios_nomes[y].place(x=(len("  " + "Nome:" + (m_tam) * "  " + " Sapato:")) * 11,
-                                              y=(62 + (45 * y)))
-                self.W = [self.titulo_buscar, self.lista_label_clientes_nomes, self.BotoesUsuarios_nomes]
-            else:
-                for y in range(0, 11):
-                    self.lista_label_clientes_nomes[y].place(x=self.Aling, y=(60 + (45 * y)))
-                    self.BotoesUsuarios_nomes[y].place(x=(len("  " + "Nome:" + (m_tam) * "  " + " Sapato:")) * 11,
-                                              y=(62 + (45 * y)))
-                self.W = [self.titulo_buscar, self.lista_label_clientes_nomes, self.BotoesUsuarios_nomes]
-                self.ProxPage = Button(self,font=("Times New Roman", 20),  text="Proxima Página", cursor="hand2", highlightbackground="white",
-                                       highlightcolor="white", bd=0, bg="white", fg=THECOLOR, activebackground=THECOLOR,
-                                       activeforeground="white")
-                self.ProxPage["command"] = lambda: self.ProxPageFuncNome(11)
-                self.ProxPage.bind('<Return>', lambda event: self.ProxPageFuncNome(11))
-                self.ProxPage.place(x=1100, y=600)
-                self.W.append(self.ProxPage)
+                # se ja tiver carregado um numero igual ao tamanho da lista retorna
+                if frame.numberOfChilds == len(listaClientes):
+                    return
+                
+                # corta a lista entre o numero de clientes que ja foram adicionadas e umintervalo de 10 clientes
+                listaClientesAdicionaraNoFrame = listaClientes[frame.numberOfChilds:frame.numberOfChilds + 10]
+                
+                for cliente in listaClientesAdicionaraNoFrame:
+                    
+                    # bloco para cada cliente
+                    FrameCLienteNomes = Frame(
+                        self.ScrollableFrameNomes.scrollable_frame,
+                        bg='#fecdd0'
+                    )
+                    FrameCLienteNomes.columnconfigure(0, weight=1)
+                    FrameCLienteNomes.columnconfigure(1, weight=2)
 
-            
+                    # label da cliente
+                    LabelClienteNomes = Label(
+                        FrameCLienteNomes,
+                        font=("Times New Roman", 20),
+                        text=f"  {self.lista_clientes[cliente][0]}" + (m_tam - len(self.lista_clientes[cliente][0])) * "  "+f"\t{self.lista_clientes[cliente][1]}",
+                        width=geral_width_label,
+                        bg="#fff",
+                        anchor=W
+                    )
+                    
+                    # botao da cliente
+                    BotaoClienteNomes = Button(
+                        FrameCLienteNomes,
+                        font=("Times New Roman", 14),
+                        text="Ver Mais", bg="#ffebff",
+                        highlightcolor="white", 
+                        cursor='hand2',
+                        highlightbackground="white", 
+                        fg=THECOLOR, 
+                        height=1,
+                        activebackground=THECOLOR, 
+                        activeforeground="white", 
+                        bd=0
+                    )
 
-            self.Voltar_buuscar = Button(self, font=("Times New Roman", 18), text="Voltar",
-                                         cursor="hand2", highlightbackground="white", highlightcolor="white",
-                                         bd=0, bg="white", fg=THECOLOR, activebackground=THECOLOR,
-                                         activeforeground="white")
-            #comandos de botões
+                    # comando e binds
+                    BotaoClienteNomes["command"] = lambda Salvo=cliente: self.janela_usuario_escolhido(Salvo, Initial, 'nome')
+                    BotaoClienteNomes.bind('<Return>', lambda event, Salvo=cliente: self.janela_usuario_escolhido(Salvo, Initial, 'nome'))
+
+                    # desenho dentro do frame
+                    LabelClienteNomes.grid(column=0, row=0, pady=10,sticky="wens")
+                    BotaoClienteNomes.grid(column=1, row=0, pady=10, sticky="wens")
+
+                    # desenho do bloco de cliente  dentroframe arrastavel
+                    FrameCLienteNomes.grid(padx=5)
+                
+                # atualiza o numero de clientes carregadas
+                frame.numberOfChilds = frame.numberOfChilds + len(listaClientesAdicionaraNoFrame)
+            
+            # se é a primeria vez que carrega o frame arrastavel
+            if self.ScrollableFrameNomes.scrollbar.get()[1] == 0.0:
+                adicionaBlocosClientesNoScrollableFrame(self.ScrollableFrameNomes, self.lista_multiplo_nome)
+            
+            # setando a função para evento onEnd do Frame Arrastavel
+            self.ScrollableFrameNomes.setOnEnd(lambda : adicionaBlocosClientesNoScrollableFrame(self.ScrollableFrameNomes, self.lista_multiplo_nome))
+
+
+            # definindo botão de voltar
+
+            self.Voltar_buuscar = Button(
+                self,
+                font=("Times New Roman", 18), 
+                text="Voltar",
+                cursor="hand2", 
+                highlightbackground="white", 
+                highlightcolor="white",
+                bd=0, 
+                bg="white", 
+                fg=THECOLOR, 
+                activebackground=THECOLOR,
+                activeforeground="white"
+            )
+            
+            #comandos de botões voltar
             self.Voltar_buuscar["command"] = lambda: self.janela_buscar()
 
-            # bind
-            
+            # bind botão voltar
             self.Voltar_buuscar.bind('<Return>', lambda event: self.janela_buscar())
 
-            #self.W
-            self.W.append(self.Voltar_buuscar)
+            # self.W
+            self.W = [ self.titulo_buscar, self.ScrollableFrameNomes, self.Voltar_buuscar ]
 
-            
-            self.titulo_buscar.place(x=self.Aling, y=15)
-            self.geometry("1400x800")
+            # placing widgets
+            self.ScrollableFrameNomes.place(x = 30, y = 60 )
+            self.titulo_buscar.place(x=self.Aling + 5, y=15)
             self.Voltar_buuscar.place(x=100, y=600)
-
-    # Terminada Abaixo
-    def ProxPageFuncNome(self, numero):
-        self.janela_clear()
-        self.titulo_buscar.place(x=self.Aling, y=15)
-        self.geometry("1400x800")
-        self.Voltar_buuscar.place(x=100, y=600)
-        lista_tam_nomes = []
-        for x in range(0, len(self.lista_multiplo_nome)):
-            lista_tam_nomes.append(len(self.lista_clientes[x][0]))
-        m_tam = define_maior_str(lista_tam_nomes)
-
-
-        if len(self.lista_multiplo_nome)-numero <= 11:
-            for y, x in zip(range(numero, len(self.lista_multiplo_nome)), range(0 , (len(self.lista_multiplo_nome)-numero))):
-
-                self.lista_label_clientes_nomes[y].place(x=self.Aling, y=(60 + (45 * x)))
-                self.BotoesUsuarios_nomes[y].place(x=(len("  " + "Nome:" + (m_tam) * "  " + " Sapato:")) * 11,
-                                          y=(62 + (45 * x)))
-            self.W = [self.titulo_buscar, self.Voltar_buuscar, self.lista_label_clientes_nomes, self.BotoesUsuarios_nomes]
-
-        else:
-
-            for y, x in zip(range(numero, numero+11) , range(0,11) ):
-                self.lista_label_clientes_nomes[y].place(x=self.Aling, y=(60 + (45 * x)))
-                self.BotoesUsuarios_nomes[y].place(x=(len("  " + "Nome:" + (m_tam) * "  " + " Sapato:")) * 11,
-                                          y=(62 + (45 * x)))
-            self.W = [self.titulo_buscar, self.Voltar_buuscar, self.lista_label_clientes_nomes, self.BotoesUsuarios_nomes]
-            self.ProxPage = Button(self,font=("Times New Roman", 20), text="Proxima Página", highlightbackground="white",
-                                   highlightcolor="white", bd=0, bg="white", fg=THECOLOR, activebackground=THECOLOR, cursor='hand2',
-                                   activeforeground="white")
-            self.ProxPage["command"] = lambda: self.ProxPageFuncNome(numero+11)
-            self.ProxPage.bind('<Return>', lambda event: self.ProxPageFuncNome(numero+11))
-            self.ProxPage.place(x=1100, y=600)
-            self.W.append((self.ProxPage))
-        if numero != 0:
-
-            self.PrevPage = Button(self,font=("Times New Roman", 20), text="Página Anterior", highlightbackground="white",
-                                   highlightcolor="white", bd=0, bg="white", fg=THECOLOR, activebackground=THECOLOR, cursor='hand2',
-                                   activeforeground="white")
-            self.PrevPage["command"] = lambda: self.PrevPageFuncNome(numero)
-            self.PrevPage.bind('<Return>', lambda event: self.PrevPageFuncNome(numero))
-            self.W.append(self.PrevPage)
-            self.PrevPage.place(x=900, y=600)
-
-    # Terminada Abaixo
-    def PrevPageFuncNome(self, Numero):
-        self.PrevPage.place_forget()
-        Numero -= 11
-        self.ProxPageFuncNome(Numero)
 
     # Terminada Abaixo
     def janela_buscar(self):
@@ -1116,14 +1174,14 @@ class Programa_Win(Tk):
         # comandos
 
         self.voltar_menu_principal["command"] = self.voltar_menu_principal_bt_clk
-        self.Busca_p_sapato["command"] = lambda: self.Busca_p_sapato_bt_clk(0)
-        self.Busca_p_nome["command"] = lambda: self.Busca_p_nome_bt_clk(0)
+        self.Busca_p_sapato["command"] = lambda: self.janela_listagem_mesmo_tamanho_pe(0)
+        self.Busca_p_nome["command"] = lambda: self.janela_listagem_mesmo_nome(0)
 
 
         # binds
         self.voltar_menu_principal.bind('<Return>', lambda event: self.voltar_menu_principal_bt_clk())
-        self.Busca_p_sapato.bind('<Return>', lambda event: self.Busca_p_sapato_bt_clk(0))
-        self.Busca_p_nome.bind('<Return>', lambda event: self.Busca_p_nome_bt_clk(0))
+        self.Busca_p_sapato.bind('<Return>', lambda event: self.janela_listagem_mesmo_tamanho_pe(0))
+        self.Busca_p_nome.bind('<Return>', lambda event: self.janela_listagem_mesmo_nome(0))
         
 
         # desenhos
@@ -1495,12 +1553,12 @@ class Programa_Win(Tk):
         self.EditarBotao.bind('<Return>', lambda event: self.janela_editar(self.Name, SapatoOuNome))
         
         if SapatoOuNome == 'nome':
-            self.VoltaBotao['command'] = lambda: self.Busca_p_nome_bt_clk(0)
-            self.VoltaBotao.bind('<Return>', lambda event: self.Busca_p_nome_bt_clk(0))
+            self.VoltaBotao['command'] = lambda: self.janela_listagem_mesmo_nome(0)
+            self.VoltaBotao.bind('<Return>', lambda event: self.janela_listagem_mesmo_nome(0))
         
         else:
-            self.VoltaBotao['command'] = lambda: self.Busca_p_sapato_bt_clk(0)
-            self.VoltaBotao.bind('<Return>', lambda event: self.Busca_p_sapato_bt_clk(0))
+            self.VoltaBotao['command'] = lambda: self.janela_listagem_mesmo_tamanho_pe(0)
+            self.VoltaBotao.bind('<Return>', lambda event: self.janela_listagem_mesmo_tamanho_pe(0))
 
         self.Titulo.place(x=430, y=15)
 
