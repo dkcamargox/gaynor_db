@@ -1,5 +1,8 @@
 from definicoes_janela import define_janela, define_maior_str, espacoNoFinal, salva, carrega, define_tam_janela, buscap_nome, buscap_sapato,busca_multiplos_nomes
 from tkinter import Tk, Button, Label, Entry, PhotoImage, CENTER, W, Frame
+from os import startfile, listdir, getenv
+from os.path import isfile, isdir, join, abspath
+import subprocess
 from scrollable_frame import ScrollableFrame
 # @ FEITO POR DOGÃO
 # @ DATA 27.09.2019
@@ -832,10 +835,11 @@ class Programa_Win(Tk):
             # scrollable frame
 
             self.ScrollableFrameSapatos = ScrollableFrame(
+                self,
                 self, 
                 width=1316, 
                 height=512,
-                bg='#fecdd0',
+                bg=BGCOLOR,
                 highlightbackground='#facacd'
             )
 
@@ -855,7 +859,7 @@ class Programa_Win(Tk):
                     # bloco para cada cliente
                     FrameCLienteSapatos = Frame(
                         self.ScrollableFrameSapatos.scrollable_frame,
-                        bg='#fecdd0'
+                        bg=BGCOLOR
                     )
                     FrameCLienteSapatos.columnconfigure(0, weight=1)
                     FrameCLienteSapatos.columnconfigure(1, weight=2)
@@ -1018,10 +1022,11 @@ class Programa_Win(Tk):
             # scrollable frame
 
             self.ScrollableFrameNomes = ScrollableFrame(
+                self,
                 self, 
                 width=1316, 
                 height=512,
-                bg='#fecdd0',
+                bg=BGCOLOR,
                 highlightbackground='#facacd'
             )
 
@@ -1040,7 +1045,7 @@ class Programa_Win(Tk):
                     # bloco para cada cliente
                     FrameCLienteNomes = Frame(
                         self.ScrollableFrameNomes.scrollable_frame,
-                        bg='#fecdd0'
+                        bg=BGCOLOR
                     )
                     FrameCLienteNomes.columnconfigure(0, weight=1)
                     FrameCLienteNomes.columnconfigure(1, weight=2)
@@ -1598,6 +1603,146 @@ class Programa_Win(Tk):
                     self.CalcanharMedidaUsuario, self.PonteiraUsuario, self.IdadeUsuario, self.TempoBalletUsuario,
                     self.CargaHorariaUsuario, self.EscolaUsuario, self.CodigoSapatilhaUsuario, self.RuaUsuario,
                     self.NumeroUsuario, self.CidadeUsuario, self.UFUsuario, self.ObservacaoUsuario, self.VoltaBotao, self.EditarBotao]
+    
+    # Terminada Abaixo
+    def janela_planilhas(self, diretorio: str):
+        def geraFrameDeArchivos(diretorio: str, conteudo: [str]):
+            listaFramesArchivos: list = []
+            for archivo in conteudo:
+               
+                # creations
+                frameArchivo = Frame(
+                    scrollableFrame.scrollable_frame,
+                    bg=BGCOLOR
+                )
+                frameArchivo.columnconfigure(0, weight=1)
+                frameArchivo.columnconfigure(1, weight=2)
+
+                if isdir(join(diretorio, archivo)):
+                    img = PhotoImage(file='./assets/pasta.png')
+                    textLabelArchivo = f' {archivo} '
+                else:
+                    img = PhotoImage(file=join('./assets/arquivo.png'))
+                    archivoSemExtensao = archivo.split('.')
+                    textLabelArchivo = f' {archivoSemExtensao[0]} '
+
+                labelArchivo = Label(
+                    frameArchivo,
+                    font = ( 'Roboto', 20 ),
+                    text = textLabelArchivo,
+                    width = 78,
+                    bg = '#FFF',
+                    anchor = 'w'
+                )
+
+                labelTipoArchivo = Label(
+                    frameArchivo,
+                    font = ( 'Roboto', 20 ),
+                    image = img,
+                    bg = '#FFF',
+                    anchor = 'center'
+                )
+                labelTipoArchivo.image = img
+                
+                botaoArchivo = Button(
+                    frameArchivo,
+                    font=("Times New Roman", 14),
+                    text="Abrir", bg="#ffebff",
+                    highlightcolor="white", 
+                    cursor='hand2',
+                    highlightbackground="white", 
+                    fg=THECOLOR, 
+                    height=1,
+                    width = 8,
+                    activebackground=THECOLOR, 
+                    activeforeground="white", 
+                    bd=0
+                )
+
+                if isfile(join(diretorio, archivo)):
+                    botaoArchivo['command'] = lambda archivo=join(diretorio, archivo): startfile(abspath(archivo))
+                elif isdir(join(diretorio, archivo)):
+                    botaoArchivo['command'] = lambda diretorio=f'{diretorio}{archivo}/': botaoArchivo_onClick(diretorio)
+                    def botaoArchivo_onClick(diretorio):
+                        wrapJanelaPlanilhas.place_forget()
+                        self.janela_planilhas(diretorio)   
+
+
+                # draws
+                labelTipoArchivo.grid(column=0, row=0, pady=10, ipadx=5, sticky='wens')
+                labelArchivo.grid(column=1, row=0, pady=10, sticky='wens')
+                botaoArchivo.grid(column=2, row=0, pady=10, sticky="wens")
+
+                listaFramesArchivos.append(frameArchivo)
+            return listaFramesArchivos
+
+
+        def botaoVoltar_onClick(diretorio: str):
+            def concatAgain(arrayDir: list):
+                stringDir = 'C:/'
+                for diretorio in arrayDir[1:]:
+                    stringDir = f'{stringDir}{diretorio}/'
+                return stringDir
+
+            arrayDir: list = diretorio.split('/')
+            if diretorio == self.initialDir:
+                self.W = [wrapJanelaPlanilhas]
+                self.janela_clear()
+                self.janela_principal()
+            else:
+                del arrayDir[len(arrayDir)-2:]
+                backDir: str = concatAgain(arrayDir)
+                wrapJanelaPlanilhas.place_forget()
+                self.janela_planilhas(backDir)
+                
+
+        # creations
+        wrapJanelaPlanilhas = Frame(
+            self,
+            bg = BGCOLOR
+        )
+
+        botaoVoltar = Button(
+            wrapJanelaPlanilhas,
+            font=("Roboto", 14),
+            text="Voltar", bg='#FFF',
+            cursor='hand2',
+            height=1,
+            bd=0
+        )
+
+        scrollableFrame = ScrollableFrame(
+            self,
+            wrapJanelaPlanilhas,
+            width=1316, 
+            height=512,
+            bg=BGCOLOR,
+            highlightbackground='#facacd'
+        )
+        
+        listaFramesArchivos = geraFrameDeArchivos(diretorio, listdir(diretorio))
+
+        # commands
+        scrollableFrame.adicionarListaFrames(listaFramesArchivos)
+        scrollableFrame.setOnEnd(lambda: scrollableFrame.adicionarListaFrames(listaFramesArchivos))
+        botaoVoltar['command'] = lambda dir=diretorio: botaoVoltar_onClick(dir)
+
+        # draws
+        botaoVoltar.grid(
+            row = 0,
+            padx = (38, 0),
+            pady = ( 30, 0),
+            sticky="W"
+        )
+        scrollableFrame.grid(
+            row = 1,
+            padx = 30,
+            pady = 30
+        )
+        wrapJanelaPlanilhas.place(
+            x = 0,
+            y =0
+        )
 
     # Terminada Abaixo
     def janela_principal(self):  # CHECK
@@ -1612,26 +1757,72 @@ class Programa_Win(Tk):
         # widgets
         self.titulo = Label(self, font=("Times New Roman", 24), text="Clientes Gaynor", bg="#fff", width=75,
                             anchor=CENTER, bd=20)
-        self.cadastrar_bt = Button(self, font=("Times New Roman", 16), text="Cadastrar", width=40, fg="black",
-                                    bg="white", bd=0, cursor="hand2", highlightbackground=THECOLOR)
-                                    
-        self.buscar_bt = Button(self, font=("Times New Roman", 16), text="Buscar", width=40, fg="black", bg="white",
-                                bd=0, cursor="hand2", highlightbackground=THECOLOR)
 
-        self.excluir_bt = Button(self, font=("Times New Roman", 16), text="Excluir", width=40, fg="black", bg="white",
-                                    bd=0, cursor="hand2", highlightbackground=THECOLOR)
-        self.W = [self.cadastrar_bt, self.excluir_bt, self.buscar_bt, self.titulo]
+        self.cadastrar_bt = Button(
+            self, 
+            font=("Times New Roman", 16), 
+            text="Cadastrar", 
+            width=40, 
+            fg="black",
+            bg="white", 
+            bd=0, 
+            cursor="hand2", 
+            highlightbackground=THECOLOR
+        )
+                                    
+        self.buscar_bt = Button(
+            self, 
+            font=("Times New Roman", 16), 
+            text="Buscar", 
+            width=40, 
+            fg="black",
+            bg="white", 
+            bd=0, 
+            cursor="hand2", 
+            highlightbackground=THECOLOR
+        )
+
+        self.excluir_bt = Button(
+            self, 
+            font=("Times New Roman", 16), 
+            text="Excluir", 
+            width=40, 
+            fg="black",
+            bg="white", 
+            bd=0, 
+            cursor="hand2", 
+            highlightbackground=THECOLOR
+        )
+
+        self.planilhas_bt = Button(
+            self, 
+            font=("Times New Roman", 16), 
+            text="Planilhas", 
+            width=40, 
+            fg="black",
+            bg="white", 
+            bd=0, 
+            cursor="hand2", 
+            highlightbackground=THECOLOR
+        )
+        
+        self.W = [self.cadastrar_bt, self.excluir_bt, self.buscar_bt, self.planilhas_bt, self.titulo]
 
         # comando dos botoes
         self.cadastrar_bt["command"] = self.janela_cadastrar
         self.buscar_bt["command"] = self.janela_buscar
         self.excluir_bt["command"] = self.janela_excluir
+        self.planilhas_bt['command'] = lambda: botaoListarArchives_onClick()
+        def botaoListarArchives_onClick():
+            self.janela_clear()
+            self.janela_planilhas(self.initialDir)
         
         # binds
 
         self.cadastrar_bt.bind('<Return>', lambda event: self.janela_cadastrar())
         self.buscar_bt.bind('<Return>', lambda event: self.janela_buscar())
         self.excluir_bt.bind('<Return>', lambda event: self.janela_excluir())
+        self.planilhas_bt.bind('<Return>', lambda event: self.botaoListarArchives_onClick())
 
 
         # desenho dos botoes
@@ -1639,18 +1830,23 @@ class Programa_Win(Tk):
         self.cadastrar_bt.place(x=TamX, y=Espaçamento)
         self.buscar_bt.place(x=TamX, y=Espaçamento + 90)
         self.excluir_bt.place(x=TamX, y=Espaçamento + 180)
+        self.planilhas_bt.place(x=TamX, y=Espaçamento + 270)
 
     # Terminada Abaixo
     def __init__(self):
+        # opening one drive
+        lclappdata = getenv('localappdata')
+        subprocess.run(f'{lclappdata}\\Microsoft\\OneDrive\\onedrive.exe /background')
+        
         try:
             self.lista_clientes = carrega()
         except EOFError:
             self.lista_clientes = []
         else:
             self.lista_clientes = carrega()
-        define_janela(self, "gaynor.ico", "Clientes Gaynor ", "1400x800", "#fecdd0")
+        define_janela(self, "gaynor.ico", "Clientes Gaynor ", "1400x800", BGCOLOR)
         self.state('zoomed')
-        
+        self.initialDir: str = 'C:/Users/grava/OneDrive/Planilhas/'
         
         self.bind('<Escape>', lambda event: self.state('normal'))
         self.bind('<F11>', lambda event: self.state('zoomed'))
@@ -1659,6 +1855,7 @@ class Programa_Win(Tk):
         self.janela_principal()
         self.mainloop()
         
- 
+
+BGCOLOR: str = '#fecdd0'
 THECOLOR: str = "#f2c7c9"
 gaynor_db = Programa_Win()

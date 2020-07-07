@@ -1,7 +1,8 @@
-import os
 from tkinter import Tk, Button, Label, Entry, PhotoImage, CENTER
 import pickle
+import os
 db = "database.txt"
+
 
 def define_icon(janela: object, icon) -> object:
     img_icon = PhotoImage(file=os.path.join(icon))

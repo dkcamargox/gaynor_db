@@ -6,7 +6,7 @@ from tkinter import Scrollbar, Frame, Canvas
  @container => where the ScrolableFrame will be drawn
 '''
 class ScrollableFrame(Frame):
-    def __init__(self, container, *args, **kwargs):
+    def __init__(self, root, container, *args, **kwargs):
         super().__init__(container, *args, **kwargs)
         self.numberOfChilds = 0
         self._on_end = lambda: None
@@ -27,7 +27,7 @@ class ScrollableFrame(Frame):
         self.canvas.configure(yscrollcommand=self.scrollbar.set)
         self.canvas.pack(side="left", fill="both", expand=True)
         self.scrollbar.pack(side="right", fill="y")
-        container.bind("<MouseWheel>", lambda event: self._on_mousewheel(event))
+        root.bind("<MouseWheel>", lambda event: self._on_mousewheel(event))
 
     '''
         setOnEnd => this method sets the event OnEnd, it recives a lambda _on_end and by default is None
@@ -44,3 +44,14 @@ class ScrollableFrame(Frame):
         self.canvas.yview_scroll(int(-event.delta/120),"units")
         if self.scrollbar.get()[1] > 0.95:
             self._on_end()
+
+    def adicionarListaFrames(self, listaFrames):
+        if self.scrollable_frame == len(listaFrames):
+            return
+        
+        listaFramesAAdicionarados = listaFrames[self.numberOfChilds:self.numberOfChilds + 10]
+        for frameAAdicionar in listaFramesAAdicionarados:
+            frameAAdicionar.grid(padx=5)
+
+        self.numberOfChilds = self.numberOfChilds + 10
+
