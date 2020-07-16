@@ -4,13 +4,10 @@ from os import startfile, listdir, getenv
 from os.path import isfile, isdir, join, abspath
 import subprocess
 from scrollable_frame import ScrollableFrame
+import asyncio
 # @ FEITO POR DOGÃO
 # @ DATA 27.09.2019
 # @ TODOS DIREITOS RESERVADOS
-
-
-
-
 
 
 class Programa_Win(Tk):
@@ -319,60 +316,186 @@ class Programa_Win(Tk):
         
         # Entrys
 
-        self.Nome_cadastro = Entry(self, width=40, justify=CENTER, font=("Times New Roman", 14), bd=0,
-                                   highlightbackground=THECOLOR, highlightcolor=THECOLOR, fg=THECOLOR, bg="#f0f0f8")
-
-        self.CodigoSapatilhaCadastroEntry = Entry(self, width=40, justify=CENTER, font=("Times New Roman", 14), bd=0,
-                                                  highlightbackground=THECOLOR, highlightcolor=THECOLOR, fg=THECOLOR, bg="#f0f0f8")
-
-        self.Sapato_cadastro = Entry(self, width=40, justify=CENTER, font=("Times New Roman", 14), bd=0,
-                                     highlightbackground=THECOLOR, highlightcolor=THECOLOR, fg=THECOLOR, bg="#f0f0f8")
-
-        self.LarguraPeCadastroEntry = Entry(self, width=40, justify=CENTER, font=("Times New Roman", 14), bd=0,
-                                            highlightbackground=THECOLOR, highlightcolor=THECOLOR, fg=THECOLOR, bg="#f0f0f8")
-
-        self.ComprimentoPeCadastroEntry = Entry(self, width=40, justify=CENTER, font=("Times New Roman", 14), bd=0,
-                                                highlightbackground=THECOLOR, highlightcolor=THECOLOR, fg=THECOLOR, bg="#f0f0f8")
-
-        self.CalcanharMedidaCadastroEntry = Entry(self, width=40, justify=CENTER, font=("Times New Roman", 14), bd=0,
-                                                  highlightbackground=THECOLOR, highlightcolor=THECOLOR, fg=THECOLOR, bg="#f0f0f8")
-
-        self.PonteiraCadastroEntry = Entry(self, width=40, justify=CENTER, font=("Times New Roman", 14), bd=0,
-                                           highlightbackground=THECOLOR, highlightcolor=THECOLOR, fg=THECOLOR, bg="#f0f0f8")
-
-        self.IdadeCadastroEntry = Entry(self, width=40, justify=CENTER, font=("Times New Roman", 14), bd=0,
-                                        highlightbackground=THECOLOR, highlightcolor=THECOLOR, fg=THECOLOR, bg="#f0f0f8")
-
-        self.TempoBalletCadastroEntry = Entry(self, width=40, justify=CENTER, font=("Times New Roman", 14), bd=0,
-                                              highlightbackground=THECOLOR, highlightcolor=THECOLOR, fg=THECOLOR, bg="#f0f0f8")
-
-        self.CargaHorariaCadastroEntry = Entry(self, width=40, justify=CENTER, font=("Times New Roman", 14), bd=0,
-                                               highlightbackground=THECOLOR, highlightcolor=THECOLOR, fg=THECOLOR, bg="#f0f0f8")
-
-        self.EscolaCadastroEntry = Entry(self, width=40, justify=CENTER, font=("Times New Roman", 14), bd=0,
-                                         highlightbackground=THECOLOR, highlightcolor=THECOLOR, fg=THECOLOR, bg="#f0f0f8")
-
-        self.ObservacaoCadastroEntry = Entry(self, width=40, justify=CENTER, font=("Times New Roman", 14), bd=0,
-                                     highlightbackground=THECOLOR, highlightcolor=THECOLOR, fg=THECOLOR, bg="#f0f0f8")
-
-        self.NomeResponsavelCadastroEntry = Entry(self, width=40, justify=CENTER, font=("Times New Roman", 14), bd=0,
-                                                  highlightbackground=THECOLOR, highlightcolor=THECOLOR, fg=THECOLOR, bg="#f0f0f8")
-
-        self.CpfResposavelCadastroEntry = Entry(self, width=40, justify=CENTER, font=("Times New Roman", 14), bd=0,
-                                                highlightbackground=THECOLOR, highlightcolor=THECOLOR, fg=THECOLOR, bg="#f0f0f8")
-
-        self.NumeroCadastroEntry = Entry(self, width=40, justify=CENTER, font=("Times New Roman", 14), bd=0,
-                                         highlightbackground=THECOLOR, highlightcolor=THECOLOR, fg=THECOLOR, bg="#f0f0f8")
-
-        self.RuaCadastroEntry = Entry(self, width=40, justify=CENTER, font=("Times New Roman", 14), bd=0,
-                                      highlightbackground=THECOLOR, highlightcolor=THECOLOR, fg=THECOLOR, bg="#f0f0f8")
-
-        self.CidadeCadastroEntry = Entry(self, width=40, justify=CENTER, font=("Times New Roman", 14), bd=0,
-                                         highlightbackground=THECOLOR, highlightcolor=THECOLOR, fg=THECOLOR, bg="#f0f0f8")
-
-        self.UFCadastroEntry = Entry(self, width=40, justify=CENTER, font=("Times New Roman", 14), bd=0,
-                                     highlightbackground=THECOLOR, highlightcolor=THECOLOR, fg=THECOLOR, bg="#f0f0f8")
-
+        self.Nome_cadastro = Entry(
+            self, 
+            width = 40, 
+            justify = CENTER, 
+            font = ("Times New Roman", 14), 
+            bd = 0, 
+            fg = ENTRY_FG_COLOR, 
+            bg = ENTRY_BG_COLOR
+        )
+        
+        self.CodigoSapatilhaCadastroEntry = Entry(
+            self, 
+            width = 40, 
+            justify = CENTER, 
+            font = ("Times New Roman", 14), 
+            bd = 0, 
+            fg = ENTRY_FG_COLOR, 
+            bg = ENTRY_BG_COLOR
+        )
+        
+        self.Sapato_cadastro = Entry(
+            self, 
+            width = 40, 
+            justify = CENTER, 
+            font = ("Times New Roman", 14), 
+            bd = 0, 
+            fg = ENTRY_FG_COLOR, 
+            bg = ENTRY_BG_COLOR
+        )
+        
+        self.LarguraPeCadastroEntry = Entry(
+            self, 
+            width = 40, 
+            justify = CENTER, 
+            font = ("Times New Roman", 14), 
+            bd = 0, 
+            fg = ENTRY_FG_COLOR, 
+            bg = ENTRY_BG_COLOR
+        )
+        
+        self.ComprimentoPeCadastroEntry = Entry(
+            self, 
+            width = 40, 
+            justify = CENTER, 
+            font = ("Times New Roman", 14), 
+            bd = 0, 
+            fg = ENTRY_FG_COLOR, 
+            bg = ENTRY_BG_COLOR
+        )
+        
+        self.CalcanharMedidaCadastroEntry = Entry(
+            self, 
+            width = 40, 
+            justify = CENTER, 
+            font = ("Times New Roman", 14), 
+            bd = 0, 
+            fg = ENTRY_FG_COLOR, 
+            bg = ENTRY_BG_COLOR
+        )
+        
+        self.PonteiraCadastroEntry = Entry(
+            self, 
+            width = 40, 
+            justify = CENTER, 
+            font = ("Times New Roman", 14), 
+            bd = 0, 
+            fg = ENTRY_FG_COLOR, 
+            bg = ENTRY_BG_COLOR
+        )
+        
+        self.IdadeCadastroEntry = Entry(
+            self, 
+            width = 40, 
+            justify = CENTER, 
+            font = ("Times New Roman", 14), 
+            bd = 0, 
+            fg = ENTRY_FG_COLOR, 
+            bg = ENTRY_BG_COLOR
+        )
+        
+        self.TempoBalletCadastroEntry = Entry(
+            self, 
+            width = 40, 
+            justify = CENTER, 
+            font = ("Times New Roman", 14), 
+            bd = 0, 
+            fg = ENTRY_FG_COLOR, 
+            bg = ENTRY_BG_COLOR
+        )
+        
+        self.CargaHorariaCadastroEntry = Entry(
+            self, 
+            width = 40, 
+            justify = CENTER, 
+            font = ("Times New Roman", 14), 
+            bd = 0, 
+            fg = ENTRY_FG_COLOR, 
+            bg = ENTRY_BG_COLOR
+        )
+        
+        self.EscolaCadastroEntry = Entry(
+            self, 
+            width = 40, 
+            justify = CENTER, 
+            font = ("Times New Roman", 14), 
+            bd = 0, 
+            fg = ENTRY_FG_COLOR, 
+            bg = ENTRY_BG_COLOR
+        )
+        
+        self.ObservacaoCadastroEntry = Entry(
+            self, 
+            width = 40, 
+            justify = CENTER, 
+            font = ("Times New Roman", 14), 
+            bd = 0, 
+            fg = ENTRY_FG_COLOR, 
+            bg = ENTRY_BG_COLOR
+        )
+        
+        self.NomeResponsavelCadastroEntry = Entry(
+            self, 
+            width = 40, 
+            justify = CENTER, 
+            font = ("Times New Roman", 14), 
+            bd = 0, 
+            fg = ENTRY_FG_COLOR, 
+            bg = ENTRY_BG_COLOR
+        )
+        
+        self.CpfResposavelCadastroEntry = Entry(
+            self, 
+            width = 40, 
+            justify = CENTER, 
+            font = ("Times New Roman", 14), 
+            bd = 0, 
+            fg = ENTRY_FG_COLOR, 
+            bg = ENTRY_BG_COLOR
+        )
+        
+        self.NumeroCadastroEntry = Entry(
+            self, 
+            width = 40, 
+            justify = CENTER, 
+            font = ("Times New Roman", 14), 
+            bd = 0, 
+            fg = ENTRY_FG_COLOR, 
+            bg = ENTRY_BG_COLOR
+        )
+        
+        self.RuaCadastroEntry = Entry(
+            self, 
+            width = 40, 
+            justify = CENTER, 
+            font = ("Times New Roman", 14), 
+            bd = 0, 
+            fg = ENTRY_FG_COLOR, 
+            bg = ENTRY_BG_COLOR
+        )
+        
+        self.CidadeCadastroEntry = Entry(
+            self, 
+            width = 40, 
+            justify = CENTER, 
+            font = ("Times New Roman", 14), 
+            bd = 0, 
+            fg = ENTRY_FG_COLOR, 
+            bg = ENTRY_BG_COLOR
+        )
+        
+        self.UFCadastroEntry = Entry(
+            self, 
+            width = 40, 
+            justify = CENTER, 
+            font = ("Times New Roman", 14), 
+            bd = 0, 
+            fg = ENTRY_FG_COLOR, 
+            bg = ENTRY_BG_COLOR
+        )
+        
 
         # Criação Buttons
         self.Cadastra = Button(self, font=("Times New Roman", 16), text="Confirma", width=10, bg="white",
@@ -573,60 +696,186 @@ class Programa_Win(Tk):
                               
         # Entrys
 
-        self.Nome_editar =   Entry(self, width=40, justify=CENTER, font=("Times New Roman", 14), bd=0,
-                                   highlightbackground=THECOLOR, highlightcolor=THECOLOR, fg=THECOLOR, bg="#f0f0f8")
+        self.Nome_editar = Entry(
+            self, 
+            width = 40, 
+            justify = CENTER, 
+            font = ("Times New Roman", 14), 
+            bd = 0, 
+            fg = ENTRY_FG_COLOR, 
+            bg = ENTRY_BG_COLOR
+        )
 
-        self.CodigoSapatilhaEditarEntry = Entry(self, width=40, justify=CENTER, font=("Times New Roman", 14), bd=0,
-                                   highlightbackground=THECOLOR, highlightcolor=THECOLOR, fg=THECOLOR, bg="#f0f0f8")
+        self.CodigoSapatilhaEditarEntry = Entry(
+            self, 
+            width = 40, 
+            justify = CENTER, 
+            font = ("Times New Roman", 14), 
+            bd = 0, 
+            fg = ENTRY_FG_COLOR, 
+            bg = ENTRY_BG_COLOR
+        )
 
-        self.Sapato_editar = Entry(self, width=40, justify=CENTER, font=("Times New Roman", 14), bd=0,
-                                   highlightbackground=THECOLOR, highlightcolor=THECOLOR, fg=THECOLOR, bg="#f0f0f8")
+        self.Sapato_editar = Entry(
+            self, 
+            width = 40, 
+            justify = CENTER, 
+            font = ("Times New Roman", 14), 
+            bd = 0, 
+            fg = ENTRY_FG_COLOR, 
+            bg = ENTRY_BG_COLOR
+        )
 
-        self.LarguraPeEditarEntry = Entry(self, width=40, justify=CENTER, font=("Times New Roman", 14), bd=0,
-                                   highlightbackground=THECOLOR, highlightcolor=THECOLOR, fg=THECOLOR, bg="#f0f0f8")
+        self.LarguraPeEditarEntry = Entry(
+            self, 
+            width = 40, 
+            justify = CENTER, 
+            font = ("Times New Roman", 14), 
+            bd = 0, 
+            fg = ENTRY_FG_COLOR, 
+            bg = ENTRY_BG_COLOR
+        )
 
-        self.ComprimentoPeEditarEntry = Entry(self, width=40, justify=CENTER, font=("Times New Roman", 14), bd=0,
-                                   highlightbackground=THECOLOR, highlightcolor=THECOLOR, fg=THECOLOR, bg="#f0f0f8")
-
-        self.CalcanharMedidaEditarEntry = Entry(self, width=40, justify=CENTER, font=("Times New Roman", 14), bd=0,
-                                   highlightbackground=THECOLOR, highlightcolor=THECOLOR, fg=THECOLOR, bg="#f0f0f8")
-
-        self.PonteiraEditarEntry = Entry(self, width=40, justify=CENTER, font=("Times New Roman", 14), bd=0,
-                                   highlightbackground=THECOLOR, highlightcolor=THECOLOR, fg=THECOLOR, bg="#f0f0f8")
-
-        self.IdadeEditarEntry = Entry(self, width=40, justify=CENTER, font=("Times New Roman", 14), bd=0,
-                                   highlightbackground=THECOLOR, highlightcolor=THECOLOR, fg=THECOLOR, bg="#f0f0f8")
-
-        self.TempoBalletEditarEntry = Entry(self, width=40, justify=CENTER, font=("Times New Roman", 14), bd=0,
-                                   highlightbackground=THECOLOR, highlightcolor=THECOLOR, fg=THECOLOR, bg="#f0f0f8")
-
-        self.CargaHorariaEditarEntry = Entry(self, width=40, justify=CENTER, font=("Times New Roman", 14), bd=0,
-                                   highlightbackground=THECOLOR, highlightcolor=THECOLOR, fg=THECOLOR, bg="#f0f0f8")
-
-        self.EscolaEditarEntry = Entry(self, width=40, justify=CENTER, font=("Times New Roman", 14), bd=0,
-                                   highlightbackground=THECOLOR, highlightcolor=THECOLOR, fg=THECOLOR, bg="#f0f0f8")
-
-        self.ObservacaoEditarEntry = Entry(self, width=40, justify=CENTER, font=("Times New Roman", 14), bd=0,
-                                   highlightbackground=THECOLOR, highlightcolor=THECOLOR, fg=THECOLOR, bg="#f0f0f8")
-
-        self.NomeResponsavelEditarEntry = Entry(self, width=40, justify=CENTER, font=("Times New Roman", 14), bd=0,
-                                   highlightbackground=THECOLOR, highlightcolor=THECOLOR, fg=THECOLOR, bg="#f0f0f8")
-
-        self.CpfResposavelEditarEntry = Entry(self, width=40, justify=CENTER, font=("Times New Roman", 14), bd=0,
-                                   highlightbackground=THECOLOR, highlightcolor=THECOLOR, fg=THECOLOR, bg="#f0f0f8")
-
-        self.NumeroEditarEntry = Entry(self, width=40, justify=CENTER, font=("Times New Roman", 14), bd=0,
-                                   highlightbackground=THECOLOR, highlightcolor=THECOLOR, fg=THECOLOR, bg="#f0f0f8")
-
-        self.RuaEditarEntry = Entry(self, width=40, justify=CENTER, font=("Times New Roman", 14), bd=0,
-                                   highlightbackground=THECOLOR, highlightcolor=THECOLOR, fg=THECOLOR, bg="#f0f0f8")
-
-        self.CidadeEditarEntry = Entry(self, width=40, justify=CENTER, font=("Times New Roman", 14), bd=0,
-                                   highlightbackground=THECOLOR, highlightcolor=THECOLOR, fg=THECOLOR, bg="#f0f0f8")
-
-        self.UFEditarEntry = Entry(self, width=40, justify=CENTER, font=("Times New Roman", 14), bd=0,
-                                   highlightbackground=THECOLOR, highlightcolor=THECOLOR, fg=THECOLOR, bg="#f0f0f8")
-
+        self.ComprimentoPeEditarEntry = Entry(
+            self, 
+            width = 40, 
+            justify = CENTER, 
+            font = ("Times New Roman", 14), 
+            bd = 0, 
+            fg = ENTRY_FG_COLOR, 
+            bg = ENTRY_BG_COLOR
+        )
+        
+        self.CalcanharMedidaEditarEntry = Entry(
+            self, 
+            width = 40, 
+            justify = CENTER, 
+            font = ("Times New Roman", 14), 
+            bd = 0, 
+            fg = ENTRY_FG_COLOR, 
+            bg = ENTRY_BG_COLOR
+        )
+        
+        self.PonteiraEditarEntry = Entry(
+            self, 
+            width = 40, 
+            justify = CENTER, 
+            font = ("Times New Roman", 14), 
+            bd = 0, 
+            fg = ENTRY_FG_COLOR, 
+            bg = ENTRY_BG_COLOR
+        )
+        
+        self.IdadeEditarEntry = Entry(
+            self, 
+            width = 40, 
+            justify = CENTER, 
+            font = ("Times New Roman", 14), 
+            bd = 0, 
+            fg = ENTRY_FG_COLOR, 
+            bg = ENTRY_BG_COLOR
+        )
+        
+        self.TempoBalletEditarEntry = Entry(
+            self, 
+            width = 40, 
+            justify = CENTER, 
+            font = ("Times New Roman", 14), 
+            bd = 0, 
+            fg = ENTRY_FG_COLOR, 
+            bg = ENTRY_BG_COLOR
+        )
+        
+        self.CargaHorariaEditarEntry = Entry(
+            self, 
+            width = 40, 
+            justify = CENTER, 
+            font = ("Times New Roman", 14), 
+            bd = 0, 
+            fg = ENTRY_FG_COLOR, 
+            bg = ENTRY_BG_COLOR
+        )
+        
+        self.EscolaEditarEntry = Entry(
+            self, 
+            width = 40, 
+            justify = CENTER, 
+            font = ("Times New Roman", 14), 
+            bd = 0, 
+            fg = ENTRY_FG_COLOR, 
+            bg = ENTRY_BG_COLOR
+        )
+        
+        self.ObservacaoEditarEntry = Entry(
+            self, 
+            width = 40, 
+            justify = CENTER, 
+            font = ("Times New Roman", 14), 
+            bd = 0, 
+            fg = ENTRY_FG_COLOR, 
+            bg = ENTRY_BG_COLOR
+        )
+        
+        self.NomeResponsavelEditarEntry = Entry(
+            self, 
+            width = 40, 
+            justify = CENTER, 
+            font = ("Times New Roman", 14), 
+            bd = 0, 
+            fg = ENTRY_FG_COLOR, 
+            bg = ENTRY_BG_COLOR
+        )
+        
+        self.CpfResposavelEditarEntry = Entry(
+            self, 
+            width = 40, 
+            justify = CENTER, 
+            font = ("Times New Roman", 14), 
+            bd = 0, 
+            fg = ENTRY_FG_COLOR, 
+            bg = ENTRY_BG_COLOR
+        )
+        
+        self.NumeroEditarEntry = Entry(
+            self, 
+            width = 40, 
+            justify = CENTER, 
+            font = ("Times New Roman", 14), 
+            bd = 0, 
+            fg = ENTRY_FG_COLOR, 
+            bg = ENTRY_BG_COLOR
+        )
+        
+        self.RuaEditarEntry = Entry(
+            self, 
+            width = 40, 
+            justify = CENTER, 
+            font = ("Times New Roman", 14), 
+            bd = 0, 
+            fg = ENTRY_FG_COLOR, 
+            bg = ENTRY_BG_COLOR
+        )
+        
+        self.CidadeEditarEntry = Entry(
+            self, 
+            width = 40, 
+            justify = CENTER, 
+            font = ("Times New Roman", 14), 
+            bd = 0, 
+            fg = ENTRY_FG_COLOR, 
+            bg = ENTRY_BG_COLOR
+        )
+        
+        self.UFEditarEntry = Entry(
+            self, 
+            width = 40, 
+            justify = CENTER, 
+            font = ("Times New Roman", 14), 
+            bd = 0, 
+            fg = ENTRY_FG_COLOR, 
+            bg = ENTRY_BG_COLOR
+        )
+        
         # Buttons
 
         self.Confirma_editar = Button(self, font=("Times New Roman", 16), text="Confirma", width=10, bg="white",
@@ -1475,7 +1724,7 @@ class Programa_Win(Tk):
                      "CPF do responsável:  \t", "Comprimento do pé:   \t", "Medida do calcanhar: \t",
                      "Ponteira:            \t\t", "Idade:               \t\t", "Tempo de ballet:     \t",
                      "Carga horária:       \t\t", "Escola:              \t\t", "Código da sapatilha: \t",
-                     "Rua:                 \t\t", "Número:              \t\t", "Cidade:              \t\t",
+                     "Rua:                 \t\t", "Telefone:              \t\t", "Cidade:              \t\t",
                      "UF:                  \t\t", "Observação:          \t\t"]
 
         for c in range(0, len(LabelName)):
@@ -1694,18 +1943,33 @@ class Programa_Win(Tk):
                 backDir: str = concatAgain(arrayDir)
                 wrapJanelaPlanilhas.place_forget()
                 self.janela_planilhas(backDir)
-                
 
+        def botaoAbrirNoExplorer_onClick(diretorio: str):
+            startfile(diretorio)
         # creations
         wrapJanelaPlanilhas = Frame(
             self,
             bg = BGCOLOR
         )
 
-        botaoVoltar = Button(
+        wrapBotoesHeader = Frame(
             wrapJanelaPlanilhas,
+            bg = BGCOLOR
+        )
+
+        botaoVoltar = Button(
+            wrapBotoesHeader,
             font=("Roboto", 14),
             text="Voltar", bg='#FFF',
+            cursor='hand2',
+            height=1,
+            bd=0
+        )
+
+        botaoAbrirNoExplorer = Button(
+            wrapBotoesHeader,
+            font=("Roboto", 14),
+            text="Abrir no Explorador de Arquivos", bg='#FFF',
             cursor='hand2',
             height=1,
             bd=0
@@ -1726,13 +1990,25 @@ class Programa_Win(Tk):
         scrollableFrame.adicionarListaFrames(listaFramesArchivos)
         scrollableFrame.setOnEnd(lambda: scrollableFrame.adicionarListaFrames(listaFramesArchivos))
         botaoVoltar['command'] = lambda dir=diretorio: botaoVoltar_onClick(dir)
+        botaoAbrirNoExplorer['command'] = lambda dir=diretorio: botaoAbrirNoExplorer_onClick(dir)
 
         # draws
-        botaoVoltar.grid(
+        wrapBotoesHeader.grid(
             row = 0,
             padx = (38, 0),
             pady = ( 30, 0),
-            sticky="W"
+            sticky="wens"
+        )
+        botaoAbrirNoExplorer.grid(
+            row = 0,
+            column = 1,
+            padx = (947, 0),
+            sticky = 'ns'
+        )
+        botaoVoltar.grid(
+            row = 0,
+            column = 0,
+            sticky = 'ns'
         )
         scrollableFrame.grid(
             row = 1,
@@ -1797,7 +2073,7 @@ class Programa_Win(Tk):
         self.planilhas_bt = Button(
             self, 
             font=("Times New Roman", 16), 
-            text="Planilhas", 
+            text="Administrativo", 
             width=40, 
             fg="black",
             bg="white", 
@@ -1834,28 +2110,42 @@ class Programa_Win(Tk):
 
     # Terminada Abaixo
     def __init__(self):
-        # opening one drive
-        lclappdata = getenv('localappdata')
-        subprocess.run(f'{lclappdata}\\Microsoft\\OneDrive\\onedrive.exe /background')
-        
+        # cria janela do programa 
+        define_janela(self, "./assets/gaynor.ico", "Clientes Gaynor ", "300x200", BGCOLOR)
+
         try:
             self.lista_clientes = carrega()
         except EOFError:
             self.lista_clientes = []
         else:
             self.lista_clientes = carrega()
-        define_janela(self, "gaynor.ico", "Clientes Gaynor ", "1400x800", BGCOLOR)
+        
+        # enerar tela de splash
+        self.janela_clear()
+        
         self.state('zoomed')
-        self.initialDir: str = 'C:/Users/grava/OneDrive/Planilhas/'
+        user = getenv('username')
+        self.initialDir: str = f'C:/Users/{user}/OneDrive/Planilhas/'
         
         self.bind('<Escape>', lambda event: self.state('normal'))
         self.bind('<F11>', lambda event: self.state('zoomed'))
 
         
         self.janela_principal()
-        self.mainloop()
         
+        self.mainloop()
 
+        
+        
+        
 BGCOLOR: str = '#fecdd0'
 THECOLOR: str = "#f2c7c9"
+ENTRY_FG_COLOR: str = '#000'
+ENTRY_BG_COLOR: str = '#f0f0f8'
+lclappdata = getenv('localappdata')
+program = f'{lclappdata}\\Microsoft\\OneDrive\\onedrive.exe'
+args = '/background'
+
+subprocess.Popen([program, args]).pid
 gaynor_db = Programa_Win()
+
