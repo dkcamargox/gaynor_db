@@ -2,8 +2,8 @@ import tkinter as tk
 import os
 import definicoes_janela
 
-numeroClientes = len(definicoes_janela.carrega())
-icon = "gaynor.ico"
+numeroClientes = len(definicoes_janela.carregaListaClientes())
+icon = "./assets/gaynor.ico"
 
 janela = tk.Tk()
 janela.title("Conta Clientes")  

@@ -1,8 +1,8 @@
+import os
 from tkinter import Tk, Button, Label, Entry, PhotoImage, CENTER
 import pickle
-import os
-db = "database.txt"
-
+db: str = "database.txt"
+sessaoArch: str = "sessao.txt"
 
 def define_icon(janela: object, icon) -> object:
     img_icon = PhotoImage(file=os.path.join(icon))
@@ -21,17 +21,45 @@ def define_janela(janela: object, icone, title, size, bg_color):
     define_icon(janela, icone)
 
 
-def salva(lista):
+def salvaSessao(sessao: bool):
+    with open("./"+ sessaoArch, "wb") as file:
+        pickle.dump(sessao, file)
+        file.close()
+    return
+
+
+def carregaSessao():
+    try:
+        with open("./" + sessaoArch, "rb") as file:
+            sessao = pickle.load(file)
+            file.close()
+    except EOFError:
+        sessao: bool = False 
+    else:
+        with open("./" + sessaoArch, "rb") as file:
+            sessao = pickle.load(file)
+            file.close()
+    return sessao
+
+
+def salvaListaClientes(lista):
     with open("./"+ db, "wb") as file:
         pickle.dump(lista, file)
         file.close()
 
 
-
-def carrega():
-    with open("./" + db, "rb") as file:
-        lista = pickle.load(file)
-        file.close()
+def carregaListaClientes():  
+    try:
+        with open("./" + db, "rb") as file:
+            lista = pickle.load(file)
+            file.close()
+    except EOFError:
+        lista = []
+    else:
+        with open("./" + db, "rb") as file:
+            lista = pickle.load(file)
+            file.close()
+    
     return lista
 
 

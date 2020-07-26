@@ -1,6 +1,6 @@
 import definicoes_janela
 
-input(len(definicoes_janela.carrega()))
+input(len(definicoes_janela.carregaListaClientes()))
 
 
 # clientes dia 25/03 = 16 #

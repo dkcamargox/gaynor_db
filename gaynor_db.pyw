@@ -1,4 +1,4 @@
-from definicoes_janela import define_janela, define_maior_str, espacoNoFinal, salva, carrega, define_tam_janela, buscap_nome, buscap_sapato,busca_multiplos_nomes
+from definicoes_janela import define_janela, salvaSessao, carregaSessao, define_maior_str, espacoNoFinal, salvaListaClientes, carregaListaClientes, define_tam_janela, buscap_nome, buscap_sapato,busca_multiplos_nomes
 from tkinter import Tk, Button, Label, Entry, PhotoImage, CENTER, W, Frame
 from os import startfile, listdir, getenv
 from os.path import isfile, isdir, join, abspath
@@ -31,12 +31,15 @@ class Programa_Win(Tk):
     # Terminada Abaixo
     def voltar_menu_principal_bt_clk(self):
         self.janela_clear()
-        self.janela_principal()
+        if self.sessaoAberta:
+            self.janela_principal_sessao_iniciada_outro_pc()
+        else:
+            self.janela_principal()
 
     # Terminada Abaixo
     def Confirma_cadastra_bt_clk(self):
         self.lista_clientes.append(self.cliente)
-        salva(self.lista_clientes)
+        salvaListaClientes(self.lista_clientes)
         self.janela_clear()
         self.janela_principal()
 
@@ -620,7 +623,7 @@ class Programa_Win(Tk):
         self.lista_clientes[pos][16] = espacoNoFinal(str(self.UFEditarEntry.get()).upper())
         self.lista_clientes[pos][17] = espacoNoFinal(str(self.ObservacaoEditarEntry.get()).upper())
 
-        salva(self.lista_clientes)
+        salvaListaClientes(self.lista_clientes)
         self.janela_clear()
         self.janela_principal()
 
@@ -899,17 +902,61 @@ class Programa_Win(Tk):
 
         # Comandos
 
-        if SapatoOuNome == 'nome':
-            self.Voltar_editar['command'] = lambda: self.janela_usuario_escolhido(pos, 0, SapatoOuNome)
-            self.Voltar_editar.bind('<Return>', lambda event: self.janela_usuario_escolhido(pos, 0, SapatoOuNome))
-            self.Confirma_editar["command"] = lambda: self.janela_usuario_escolhido(pos, 0, SapatoOuNome)
-            self.Confirma_editar.bind('<Return>', lambda event: self.janela_usuario_escolhido(pos, 0, SapatoOuNome))
         
-        else:
-            self.Voltar_editar['command'] = lambda: self.janela_usuario_escolhido(pos, 0, SapatoOuNome)
-            self.Voltar_editar.bind('<Return>', lambda event: self.janela_usuario_escolhido(pos, 0, SapatoOuNome))
-            self.Confirma_editar["command"] = lambda: self.janela_usuario_escolhido(pos, 0, SapatoOuNome)
-            self.Confirma_editar.bind('<Return>', lambda event: self.janela_usuario_escolhido(pos, 0, SapatoOuNome))
+        self.Voltar_editar['command'] = lambda: self.janela_usuario_escolhido(pos, 0, SapatoOuNome)
+        self.Voltar_editar.bind('<Return>', lambda event: self.janela_usuario_escolhido(pos, 0, SapatoOuNome))
+
+        self.Confirma_editar["command"] = lambda: Confirma_editar_onClick()
+        def Confirma_editar_onClick():
+            # salvar
+            nome: str = espacoNoFinal(str(self.Nome_editar.get()).upper())
+            codigoSapatilha: str = espacoNoFinal(str(self.CodigoSapatilhaEditarEntry.get()).upper())
+            sapato: str = espacoNoFinal(str(self.Sapato_editar.get()).upper())
+            larguraPe: str = espacoNoFinal(str(self.LarguraPeEditarEntry.get()).upper())
+            comprimentoPe: str = espacoNoFinal(str(self.ComprimentoPeEditarEntry.get()).upper())
+            calcanharMedida: str = espacoNoFinal(str(self.CalcanharMedidaEditarEntry.get()).upper())
+            ponteira: str = espacoNoFinal(str(self.PonteiraEditarEntry.get()).upper())
+            idade: str = espacoNoFinal(str(self.IdadeEditarEntry.get()).upper())
+            tempoBallet: str = espacoNoFinal(str(self.TempoBalletEditarEntry.get()).upper())
+            cargaHoraria: str = espacoNoFinal(str(self.CargaHorariaEditarEntry.get()).upper())
+            escola: str = espacoNoFinal(str(self.EscolaEditarEntry.get()).upper())
+            observacao: str = espacoNoFinal(str(self.ObservacaoEditarEntry.get()).upper())
+            nomeResponsavel: str = espacoNoFinal(str(self.NomeResponsavelEditarEntry.get()).upper())
+            cpfResponsavel: str = espacoNoFinal(str(self.CpfResposavelEditarEntry.get()).upper())
+            numero: str = espacoNoFinal(str(self.NumeroEditarEntry.get()).upper())
+            rua: str = espacoNoFinal(str(self.RuaEditarEntry.get()).upper())
+            cidade: str = espacoNoFinal(str(self.CidadeEditarEntry.get()).upper())
+            UF: str = espacoNoFinal(str(self.UFEditarEntry.get()).upper())
+            
+            cliente: list = [
+                nome,
+                sapato,
+                larguraPe,
+                nomeResponsavel,
+                cpfResponsavel,
+                comprimentoPe,
+                calcanharMedida,
+                ponteira,
+                idade,
+                tempoBallet,
+                cargaHoraria,
+                escola,
+                codigoSapatilha,
+                rua,
+                numero,
+                cidade,
+                UF,
+                observacao
+            ]
+
+            
+            self.lista_clientes.pop(pos)
+            self.lista_clientes[pos:pos] = [cliente]
+            salvaListaClientes(self.lista_clientes)
+            self.janela_usuario_escolhido(pos, 0, SapatoOuNome)
+        self.Confirma_editar.bind('<Return>', lambda event: Confirma_editar_onClick())
+        
+        
             
         
 
@@ -1399,12 +1446,25 @@ class Programa_Win(Tk):
                                    width=30, anchor=CENTER, bd=5)
 
 
-        self.Nome_janela_buscar_entry = Entry(self, width=34, justify=CENTER, font=("Times New Roman", 16), fg=THECOLOR,
-                                 highlightbackground=THECOLOR, bd=0, highlightcolor=THECOLOR, bg="#f0f0f8")
+        self.Nome_janela_buscar_entry= Entry(
+            self, 
+            width = 40, 
+            justify = CENTER, 
+            font = ("Times New Roman", 14), 
+            bd = 0, 
+            fg = ENTRY_FG_COLOR, 
+            bg = ENTRY_BG_COLOR
+        )
 
-        self.Sapato_janela_buscar_entry = Entry(self, width=34, justify=CENTER, font=("Times New Roman", 16), fg=THECOLOR,
-                                   highlightbackground=THECOLOR, bd=0, highlightcolor=THECOLOR, bg="#f0f0f8")
-
+        self.Sapato_janela_buscar_entry = Entry(
+            self, 
+            width = 40, 
+            justify = CENTER, 
+            font = ("Times New Roman", 14), 
+            bd = 0, 
+            fg = ENTRY_FG_COLOR, 
+            bg = ENTRY_BG_COLOR
+        )
         self.Busca_p_nome = Button(self, font=("Times New Roman", 14), text="Busca por Nome", width=13,
                                         highlightcolor="white", highlightbackground="white", bg="white",
                                         fg=THECOLOR, activebackground=THECOLOR, activeforeground="white", bd=0,
@@ -1453,7 +1513,7 @@ class Programa_Win(Tk):
     def Exclui_bt_clk(self):
         pos = int(buscap_nome(self.nome_exclui_g, self.lista_clientes))
         self.lista_clientes.pop(pos)
-        salva(self.lista_clientes)
+        salvaListaClientes(self.lista_clientes)
         self.janela_clear()
         self.janela_principal()
 
@@ -1662,9 +1722,15 @@ class Programa_Win(Tk):
                                  width=30, anchor=CENTER, bd=5)
                                  
                                  
-        self.Nome_janela_excluir_entry = Entry(self, width=34, justify=CENTER, font=("Times New Roman", 16), fg=THECOLOR,
-                                            highlightbackground=THECOLOR, bd=0, highlightcolor=THECOLOR, bg="#f0f0f8")
-                                  
+        self.Nome_janela_excluir_entry = Entry(
+            self, 
+            width = 40, 
+            justify = CENTER, 
+            font = ("Times New Roman", 14), 
+            bd = 0, 
+            fg = ENTRY_FG_COLOR, 
+            bg = ENTRY_BG_COLOR
+        )
                                   
         self.Exclui = Button(self, font=("Times New Roman", 18), text="Excluir", highlightcolor="white", highlightbackground="white",
                             bg="white", fg=THECOLOR, activebackground=THECOLOR, activeforeground="white", bd=0, cursor="hand2")
@@ -1843,8 +1909,8 @@ class Programa_Win(Tk):
         self.UFUsuario.place(x=TamX, y=TamY + (34 * 16))
 
         # Buttons
-
-        self.EditarBotao.place(x=900, y=350)
+        if self.sessaoAberta == False:
+            self.EditarBotao.place(x=900, y=350)
         self.VoltaBotao.place(x=900, y=400)
 
         self.W = [self.Titulo, self.SapatoUsuario, self.SapatoUsuario, self.LarguraPeUsuario,
@@ -1854,7 +1920,7 @@ class Programa_Win(Tk):
                     self.NumeroUsuario, self.CidadeUsuario, self.UFUsuario, self.ObservacaoUsuario, self.VoltaBotao, self.EditarBotao]
     
     # Terminada Abaixo
-    def janela_planilhas(self, diretorio: str):
+    def janela_planilhas(self, diretorio: str, sessaoAberta: bool):
         def geraFrameDeArchivos(diretorio: str, conteudo: [str]):
             listaFramesArchivos: list = []
             for archivo in conteudo:
@@ -1914,7 +1980,7 @@ class Programa_Win(Tk):
                     botaoArchivo['command'] = lambda diretorio=f'{diretorio}{archivo}/': botaoArchivo_onClick(diretorio)
                     def botaoArchivo_onClick(diretorio):
                         wrapJanelaPlanilhas.place_forget()
-                        self.janela_planilhas(diretorio)   
+                        self.janela_planilhas(diretorio, sessaoAberta)   
 
 
                 # draws
@@ -1937,12 +2003,15 @@ class Programa_Win(Tk):
             if diretorio == self.initialDir:
                 self.W = [wrapJanelaPlanilhas]
                 self.janela_clear()
-                self.janela_principal()
+                if sessaoAberta:
+                    self.janela_principal_sessao_iniciada_outro_pc()
+                else:
+                    self.janela_principal()
             else:
                 del arrayDir[len(arrayDir)-2:]
                 backDir: str = concatAgain(arrayDir)
                 wrapJanelaPlanilhas.place_forget()
-                self.janela_planilhas(backDir)
+                self.janela_planilhas(backDir, sessaoAberta)
 
         def botaoAbrirNoExplorer_onClick(diretorio: str):
             startfile(diretorio)
@@ -1952,13 +2021,23 @@ class Programa_Win(Tk):
             bg = BGCOLOR
         )
 
-        wrapBotoesHeader = Frame(
+        wrapHeader = Frame(
             wrapJanelaPlanilhas,
             bg = BGCOLOR
         )
 
+        labelSessaoAberta = Label(
+            wrapHeader,
+            font=("Roboto", 14),
+            text="Sessão aberta em outro computador",
+            bg='#FBE0E0',
+            fg = '#888888',
+            height=1,
+            bd=0
+        )
+
         botaoVoltar = Button(
-            wrapBotoesHeader,
+            wrapHeader,
             font=("Roboto", 14),
             text="Voltar", bg='#FFF',
             cursor='hand2',
@@ -1967,7 +2046,7 @@ class Programa_Win(Tk):
         )
 
         botaoAbrirNoExplorer = Button(
-            wrapBotoesHeader,
+            wrapHeader,
             font=("Roboto", 14),
             text="Abrir no Explorador de Arquivos", bg='#FFF',
             cursor='hand2',
@@ -1993,23 +2072,43 @@ class Programa_Win(Tk):
         botaoAbrirNoExplorer['command'] = lambda dir=diretorio: botaoAbrirNoExplorer_onClick(dir)
 
         # draws
-        wrapBotoesHeader.grid(
+        wrapHeader.grid(
             row = 0,
             padx = (38, 0),
             pady = ( 30, 0),
             sticky="wens"
         )
-        botaoAbrirNoExplorer.grid(
-            row = 0,
-            column = 1,
-            padx = (947, 0),
-            sticky = 'ns'
-        )
-        botaoVoltar.grid(
-            row = 0,
-            column = 0,
-            sticky = 'ns'
-        )
+        if sessaoAberta:
+            botaoAbrirNoExplorer.grid(
+                row = 0,
+                column = 2,
+                padx = (614, 0),
+                sticky = 'ns'
+            )
+            labelSessaoAberta.grid(
+                row = 0,
+                column = 1,
+                ipadx = 5,
+                padx = ( 20, 0 ),
+                sticky = 'ns'
+            )
+            botaoVoltar.grid(
+                row = 0,
+                column = 0,
+                sticky = 'ns'
+            )
+        else:
+            botaoAbrirNoExplorer.grid(
+                row = 0,
+                column = 1,
+                padx = (947, 0),
+                sticky = 'ns'
+            )
+            botaoVoltar.grid(
+                row = 0,
+                column = 0,
+                sticky = 'ns'
+            )
         scrollableFrame.grid(
             row = 1,
             padx = 30,
@@ -2091,7 +2190,7 @@ class Programa_Win(Tk):
         self.planilhas_bt['command'] = lambda: botaoListarArchives_onClick()
         def botaoListarArchives_onClick():
             self.janela_clear()
-            self.janela_planilhas(self.initialDir)
+            self.janela_planilhas(self.initialDir, False)
         
         # binds
 
@@ -2108,21 +2207,130 @@ class Programa_Win(Tk):
         self.excluir_bt.place(x=TamX, y=Espaçamento + 180)
         self.planilhas_bt.place(x=TamX, y=Espaçamento + 270)
 
-    # Terminada Abaixo
-    def __init__(self):
-        # cria janela do programa 
-        define_janela(self, "./assets/gaynor.ico", "Clientes Gaynor ", "300x200", BGCOLOR)
 
-        try:
-            self.lista_clientes = carrega()
-        except EOFError:
-            self.lista_clientes = []
-        else:
-            self.lista_clientes = carrega()
+    def janela_principal_sessao_iniciada_outro_pc(self):
         
-        # enerar tela de splash
-        self.janela_clear()
+        Espaçamento: int = 150
+        TamX: int = 445
+        self.W = []
+        self.Verify = False
+
+        # fundo
+
+        # widgets
+        self.titulo = Label(
+            self, 
+            font=("Times New Roman", 24), 
+            text="Clientes Gaynor", 
+            bg="#fff", 
+            width=75,
+            anchor=CENTER, 
+            bd=20
+        )
+        self.buscar_bt = Button(
+            self, 
+            font=("Times New Roman", 16), 
+            text="Buscar", 
+            width=40, 
+            fg="black",
+            bg="white", 
+            bd=0, 
+            cursor="hand2", 
+            highlightbackground=THECOLOR
+        )
+
+        self.planilhas_bt = Button(
+            self, 
+            font=("Times New Roman", 16), 
+            text="Administrativo", 
+            width=40, 
+            fg="black",
+            bg="white", 
+            bd=0, 
+            cursor="hand2", 
+            highlightbackground=THECOLOR
+        )
+
+        self.frameSessaoAberta = Frame(
+            self,
+            bg='#fff'
+        )
+
+        labelSessaoAberta = Label(
+            self.frameSessaoAberta,
+            font=("Roboto", 14),
+            text="Sessão aberta em outro computador",
+            bg=BGCOLOR,
+            fg = '#888888',
+            height=1,
+            bd=0
+        )
         
+
+        
+        img = PhotoImage(file='./assets/sessao24.png')
+        labelIconeSessaoAberta = Label(
+            self.frameSessaoAberta,
+            font=("Roboto", 14),
+            image = img,
+            bg=BGCOLOR,
+            anchor = 'center'
+        )
+        labelIconeSessaoAberta.image = img
+
+        labelIconeSessaoAberta.grid(
+            row=0,
+            column=0
+        )
+        
+        labelIconeSessaoAberta.bind("<Enter>", lambda event: labelIconeSessaoAberta_onEnter())
+        def labelIconeSessaoAberta_onEnter():
+            labelSessaoAberta.grid(
+                row=0, 
+                column=1,
+                ipadx=5,
+                sticky='ns'
+            )
+
+            
+        labelIconeSessaoAberta.bind("<Leave>", lambda event: labelIconeSessaoAberta_onLeave())
+        def labelIconeSessaoAberta_onLeave():
+            labelSessaoAberta.grid_forget()
+        
+        
+        
+        
+        self.W = [self.planilhas_bt, self.titulo, self.buscar_bt]
+
+        # comando dos botoes
+        
+        self.buscar_bt["command"] = self.janela_buscar
+        self.planilhas_bt['command'] = lambda: botaoListarArchives_onClick()
+        def botaoListarArchives_onClick():
+            self.janela_clear()
+            self.janela_planilhas(self.initialDir, True)
+        
+        # binds
+        self.buscar_bt.bind('<Return>', lambda event: self.janela_buscar())
+        self.planilhas_bt.bind('<Return>', lambda event: self.botaoListarArchives_onClick())
+
+
+        # desenho dos botoes
+        self.titulo.place(x=0, y=15)
+        self.buscar_bt.place(x=TamX, y=Espaçamento)
+        self.planilhas_bt.place(x=TamX, y=Espaçamento+90)
+        self.frameSessaoAberta.place(
+            x = 7,
+            y = 20
+        )
+    
+    # Terminada Abaixo
+    def __init__(self, sessaoAberta):
+        # cria janela do programa
+        self.sessaoAberta = sessaoAberta
+        self.lista_clientes = carregaListaClientes()
+
+        define_janela(self, "./assets/gaynor.ico", "Clientes Gaynor ", "300x200", BGCOLOR)
         self.state('zoomed')
         user = getenv('username')
         self.initialDir: str = f'C:/Users/{user}/OneDrive/Planilhas/'
@@ -2130,9 +2338,12 @@ class Programa_Win(Tk):
         self.bind('<Escape>', lambda event: self.state('normal'))
         self.bind('<F11>', lambda event: self.state('zoomed'))
 
-        
-        self.janela_principal()
-        
+        if sessaoAberta:
+            # janela só com botão de planilhas
+            self.janela_principal_sessao_iniciada_outro_pc()
+        else:
+            # execução comum do programa:
+            self.janela_principal()
         self.mainloop()
 
         
@@ -2147,5 +2358,20 @@ program = f'{lclappdata}\\Microsoft\\OneDrive\\onedrive.exe'
 args = '/background'
 
 subprocess.Popen([program, args]).pid
-gaynor_db = Programa_Win()
+# carrega sessão
+sessaoAberta = carregaSessao()
+# checa: bool => if true:
+if sessaoAberta:
+#   Instancia Programa_Win com flag para janela inicio planilhas(
+#       => PLanilhas
+#   )
+    gaynor_db = Programa_Win(sessaoAberta)
+else:
+#   troca sessão para aberta => sessao:bool =  true
+    salvaSessao(True)
+#   instancia Programa_Win sem flag()
+    gaynor_db = Programa_Win(False)
+#   troca sessão para fechada => sessão: bool = false
+    salvaSessao(False)
+
 
