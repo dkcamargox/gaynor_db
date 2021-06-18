@@ -97,6 +97,14 @@ def buscap_sapato(pe, clientes):
     return lista
 
 
+def buscap_codigo(codigo, clientes):
+    lista = []
+    for x in range(0, len(clientes)):
+        if codigo in clientes[x][12]:
+            lista.append(x)
+    return lista
+
+
 def define_maior_str(tamanhos):
     maior_tamanho = tamanhos[0]
     for x in range(1, len(tamanhos)):

@@ -1,10 +1,12 @@
-from definicoes_janela import define_janela, salvaSessao, carregaSessao, define_maior_str, espacoNoFinal, salvaListaClientes, carregaListaClientes, define_tam_janela, buscap_nome, buscap_sapato,busca_multiplos_nomes
+from definicoes_janela import buscap_codigo, define_janela, salvaSessao, carregaSessao, define_maior_str, espacoNoFinal, salvaListaClientes, carregaListaClientes, define_tam_janela, buscap_nome, buscap_sapato,busca_multiplos_nomes
 from tkinter import Tk, Button, Label, Entry, PhotoImage, CENTER, W, Frame
 from os import startfile, listdir, getenv
 from os.path import isfile, isdir, join, abspath
 import subprocess
 from scrollable_frame import ScrollableFrame
 import asyncio
+import ctypes
+
 # @ FEITO POR DOGÃO
 # @ DATA 27.09.2019
 # @ TODOS DIREITOS RESERVADOS
@@ -130,78 +132,78 @@ class Programa_Win(Tk):
 
         # Labels
 
-        self.titulo_confirma = Label(self, font=("Times New Roman", 24), text="Confirma?", bg="#fff",
+        self.titulo_confirma = Label(self, font=("Roboto", 24), text="Confirma?", bg="#fff",
                                      width=30, anchor=CENTER, bd=20)
 
-        self.nome_confirma = Label(self, font=("Times New Roman", 14), text=LabelName[0] + nome, bg="#fff",
+        self.nome_confirma = Label(self, font=("Roboto", 14), text=LabelName[0] + nome, bg="#fff",
                                    width=Tamanhos[0], anchor=W, bd=4)
 
-        self.sapato_confirma = Label(self, font=("Times New Roman", 14), text=LabelName[1] + sapato, bg="#fff",
+        self.sapato_confirma = Label(self, font=("Roboto", 14), text=LabelName[1] + sapato, bg="#fff",
                                      width=Tamanhos[0], anchor=W, bd=4)
 
-        self.LarguraPeConfirma = Label(self, font=("Times New Roman", 14), text=LabelName[2] + LargPe, bg="#fff",
+        self.LarguraPeConfirma = Label(self, font=("Roboto", 14), text=LabelName[2] + LargPe, bg="#fff",
                                        width=Tamanhos[0], anchor=W, bd=4)
 
-        self.NomeResponsavelConfirma = Label(self, font=("Times New Roman", 14), text=LabelName[3] + NomeResp,
+        self.NomeResponsavelConfirma = Label(self, font=("Roboto", 14), text=LabelName[3] + NomeResp,
                                              bg="#fff", width=Tamanhos[0], anchor=W,
                                              bd=4)
 
-        self.CpfResposavelConfirma = Label(self, font=("Times New Roman", 14), text=LabelName[4] + CpfResp,
+        self.CpfResposavelConfirma = Label(self, font=("Roboto", 14), text=LabelName[4] + CpfResp,
                                            bg="#fff", width=Tamanhos[0], anchor=W,
                                            bd=4)
         
-        self.ComprimentoPeConfirma = Label(self, font=("Times New Roman", 14), text=LabelName[5] + CompriPe,
+        self.ComprimentoPeConfirma = Label(self, font=("Roboto", 14), text=LabelName[5] + CompriPe,
                                            bg="#fff", width=Tamanhos[0], anchor=W,
                                            bd=4)
 
-        self.CalcanharMedidaConfirma = Label(self, font=("Times New Roman", 14), text=LabelName[6] + CalcMed,
+        self.CalcanharMedidaConfirma = Label(self, font=("Roboto", 14), text=LabelName[6] + CalcMed,
                                              bg="#fff", width=Tamanhos[0],
                                              anchor=W, bd=4)
 
-        self.PonteiraConfirma = Label(self, font=("Times New Roman", 14), text=LabelName[7] + Ponteira, bg="#fff"
+        self.PonteiraConfirma = Label(self, font=("Roboto", 14), text=LabelName[7] + Ponteira, bg="#fff"
                                       , width=Tamanhos[0], anchor=W, bd=4)
 
-        self.IdadeConfirma = Label(self, font=("Times New Roman", 14), text=LabelName[8] + Idade, bg="#fff",
+        self.IdadeConfirma = Label(self, font=("Roboto", 14), text=LabelName[8] + Idade, bg="#fff",
                                    width=Tamanhos[0], anchor=W, bd=4)
 
-        self.TempoBalletConfirma = Label(self, font=("Times New Roman", 14), text=LabelName[9] + TempBal,
+        self.TempoBalletConfirma = Label(self, font=("Roboto", 14), text=LabelName[9] + TempBal,
                                          bg="#fff", width=Tamanhos[0], anchor=W,
                                          bd=4)
 
-        self.CargaHorariaConfirma = Label(self, font=("Times New Roman", 14), text=LabelName[10] + CargHor,
+        self.CargaHorariaConfirma = Label(self, font=("Roboto", 14), text=LabelName[10] + CargHor,
                                           bg="#fff", width=Tamanhos[0], anchor=W,
                                           bd=4)
 
-        self.EscolaConfirma = Label(self, font=("Times New Roman", 14), text=LabelName[11] + Escola, bg="#fff",
+        self.EscolaConfirma = Label(self, font=("Roboto", 14), text=LabelName[11] + Escola, bg="#fff",
                                     width=Tamanhos[0], anchor=W, bd=4)
 
-        self.CodigoSapatilhaConfirma = Label(self, font=("Times New Roman", 14), text=LabelName[12] + CodSapatilha,
+        self.CodigoSapatilhaConfirma = Label(self, font=("Roboto", 14), text=LabelName[12] + CodSapatilha,
                                              bg="#fff", width=Tamanhos[0],
                                              anchor=W, bd=4)
 
-        self.RuaConfirma = Label(self, font=("Times New Roman", 14), text=LabelName[13] + Rua, bg="#fff",
+        self.RuaConfirma = Label(self, font=("Roboto", 14), text=LabelName[13] + Rua, bg="#fff",
                                  width=Tamanhos[0], anchor=W, bd=4)
 
-        self.NumeroConfirma = Label(self, font=("Times New Roman", 14), text=LabelName[14] + Numero, bg="#fff",
+        self.NumeroConfirma = Label(self, font=("Roboto", 14), text=LabelName[14] + Numero, bg="#fff",
                                     width=Tamanhos[0], anchor=W, bd=4)
 
-        self.CidadeConfirma = Label(self, font=("Times New Roman", 14), text=LabelName[15] + Cidade, bg="#fff",
+        self.CidadeConfirma = Label(self, font=("Roboto", 14), text=LabelName[15] + Cidade, bg="#fff",
                                     width=Tamanhos[0], anchor=W, bd=4)
 
-        self.UFConfirma = Label(self, font=("Times New Roman", 14), text=LabelName[16] + UF, bg="#fff",
+        self.UFConfirma = Label(self, font=("Roboto", 14), text=LabelName[16] + UF, bg="#fff",
                                 width=Tamanhos[0], anchor=W, bd=4)
 
-        self.ObservacaoConfirma = Label(self, font=("Times New Roman", 14), text=LabelName[17] + Observacao, bg="#fff",
+        self.ObservacaoConfirma = Label(self, font=("Roboto", 14), text=LabelName[17] + Observacao, bg="#fff",
                                 width=Tamanhos[0], anchor=W, bd=4)
 
         # Buttons
 
-        self.Cadastra = Button(self, font=("Times New Roman", 16), text="Confirma", bd=0, bg="white", fg=THECOLOR, width=10,
+        self.Cadastra = Button(self, font=("Roboto", 16), text="Confirma", bd=0, bg="white",   width=10,
                                activebackground=THECOLOR, activeforeground="white", highlightcolor="white", cursor="hand2",
                                highlightbackground="white")
 
-        self.Voltar_cadastra = Button(self, font=("Times New Roman", 16), text="Voltar", bd=0, width=10,
-                                      bg="white", fg=THECOLOR, activebackground=THECOLOR, activeforeground="white",
+        self.Voltar_cadastra = Button(self, font=("Roboto", 16), text="Voltar", bd=0, width=10,
+                                      bg="white",   activebackground=THECOLOR, activeforeground="white",
                                       highlightcolor="white", highlightbackground="white", cursor="hand2")
 
         self.W = [self.titulo_confirma, self.Cadastra, self.nome_confirma, self.sapato_confirma, self.Voltar_cadastra,
@@ -260,70 +262,70 @@ class Programa_Win(Tk):
         # widgets
 
         # Criação Labels
-        self.titulo_cadastro = Label(self, font=("Times New Roman", 24), text="Cadastro de Cliente", bg="#fff",
+        self.titulo_cadastro = Label(self, font=("Roboto Lt", 30), text="Cadastro de Cliente", bg="#fff",
                                      width=30, anchor=CENTER, bd=20)
 
-        self.nome_cadastro = Label(self, font=("Times New Roman", 14), text="Nome:", bg="#fff", width=40,
+        self.nome_cadastro = Label(self, font=("Roboto", 14), text="Nome:", bg="#fff", width=35,
                                    anchor=CENTER, bd=5)
 
-        self.sapato_cadastro = Label(self, font=("Times New Roman", 14), text="Tamanho do pé:", bg="#fff", width=40,
+        self.sapato_cadastro = Label(self, font=("Roboto", 14), text="Tamanho do pé:", bg="#fff", width=35,
                                      anchor=CENTER, bd=5)
 
-        self.LarguraPeCadastro = Label(self, font=("Times New Roman", 14), text="Lárgura do pé:", bg="#fff",
-                                       width=40, anchor=CENTER, bd=5)
+        self.LarguraPeCadastro = Label(self, font=("Roboto", 14), text="Lárgura do pé:", bg="#fff",
+                                       width=35, anchor=CENTER, bd=5)
 
-        self.NomeResponsavelCadastro = Label(self, font=("Times New Roman", 14), text="Nome do Responsável:",
-                                             bg="#fff", width=40, anchor=CENTER, bd=5)
+        self.NomeResponsavelCadastro = Label(self, font=("Roboto", 14), text="Nome do Responsável:",
+                                             bg="#fff", width=35, anchor=CENTER, bd=5)
 
-        self.CpfResposavelCadastro = Label(self, font=("Times New Roman", 14), text="CPF do responsável:", bg="#fff",
-                                           width=40, anchor=CENTER, bd=5)
+        self.CpfResposavelCadastro = Label(self, font=("Roboto", 14), text="CPF do responsável:", bg="#fff",
+                                           width=35, anchor=CENTER, bd=5)
 
-        self.ComprimentoPeCadastro = Label(self, font=("Times New Roman", 14), text="Comprimento do pé:", bg="#fff",
-                                           width=40, anchor=CENTER, bd=5)
+        self.ComprimentoPeCadastro = Label(self, font=("Roboto", 14), text="Comprimento do pé:", bg="#fff",
+                                           width=35, anchor=CENTER, bd=5)
 
-        self.CalcanharMedidaCadastro = Label(self, font=("Times New Roman", 14), text="Medida do calcanhar:",
-                                             bg="#fff", width=40, anchor=CENTER, bd=5)
+        self.CalcanharMedidaCadastro = Label(self, font=("Roboto", 14), text="Medida do calcanhar:",
+                                             bg="#fff", width=35, anchor=CENTER, bd=5)
 
-        self.PonteiraCadastro = Label(self, font=("Times New Roman", 14), text="Ponteira:", bg="#fff", width=40,
+        self.PonteiraCadastro = Label(self, font=("Roboto", 14), text="Ponteira:", bg="#fff", width=35,
                                       anchor=CENTER, bd=5)
 
-        self.IdadeCadastro = Label(self, font=("Times New Roman", 14), text="Idade:", bg="#fff", width=40,
+        self.IdadeCadastro = Label(self, font=("Roboto", 14), text="Idade:", bg="#fff", width=35,
                                    anchor=CENTER, bd=5)
 
-        self.TempoBalletCadastro = Label(self, font=("Times New Roman", 14), text="Tempo de Ballet:", bg="#fff",
-                                         width=40, anchor=CENTER, bd=5)
+        self.TempoBalletCadastro = Label(self, font=("Roboto", 14), text="Tempo de Ballet:", bg="#fff",
+                                         width=35, anchor=CENTER, bd=5)
 
-        self.CargaHorariaCadastro = Label(self, font=("Times New Roman", 14), text="Carga Horária:", bg="#fff",
-                                          width=40, anchor=CENTER, bd=5)
+        self.CargaHorariaCadastro = Label(self, font=("Roboto", 14), text="Carga Horária:", bg="#fff",
+                                          width=35, anchor=CENTER, bd=5)
 
-        self.EscolaCadastro = Label(self, font=("Times New Roman", 14), text="Escola:", bg="#fff", width=40,
+        self.EscolaCadastro = Label(self, font=("Roboto", 14), text="Escola:", bg="#fff", width=35,
                                     anchor=CENTER, bd=5)
 
-        self.CodigoSapatilhaCadastro = Label(self, font=("Times New Roman", 14), text="Código da sapatilha:",
-                                             bg="#fff", width=40, anchor=CENTER, bd=5)
+        self.CodigoSapatilhaCadastro = Label(self, font=("Roboto", 14), text="Código da sapatilha:",
+                                             bg="#fff", width=35, anchor=CENTER, bd=5)
 
-        self.RuaCadastro = Label(self, font=("Times New Roman", 14), text="Rua:", bg="#fff", width=40,
+        self.RuaCadastro = Label(self, font=("Roboto", 14), text="Rua:", bg="#fff", width=35,
                                  anchor=CENTER, bd=5)
 
-        self.NumeroCadastro = Label(self, font=("Times New Roman", 14), text="Telefone:", bg="#fff", width=40,
+        self.NumeroCadastro = Label(self, font=("Roboto", 14), text="Telefone:", bg="#fff", width=35,
                                     anchor=CENTER, bd=5)
 
-        self.CidadeCadastro = Label(self, font=("Times New Roman", 14), text="Cidade:", bg="#fff", width=40,
+        self.CidadeCadastro = Label(self, font=("Roboto", 14), text="Cidade:", bg="#fff", width=35,
                                     anchor=CENTER, bd=5)
 
-        self.UFCadastro = Label(self, font=("Times New Roman", 14), text="UF:", bg="#fff", width=40,
+        self.UFCadastro = Label(self, font=("Roboto", 14), text="UF:", bg="#fff", width=35,
                                 anchor=CENTER, bd=5)
 
-        self.ObservacaoCadastro = Label(self, font=("Times New Roman", 14), text="Observação:", bg="#fff", width=40,
+        self.ObservacaoCadastro = Label(self, font=("Roboto", 14), text="Observação:", bg="#fff", width=35,
                                 anchor=CENTER, bd=5)
         
         # Entrys
 
         self.Nome_cadastro = Entry(
             self, 
-            width = 40, 
+            width = 30, 
             justify = CENTER, 
-            font = ("Times New Roman", 14), 
+            font = ("Roboto", 14), 
             bd = 0, 
             fg = ENTRY_FG_COLOR, 
             bg = ENTRY_BG_COLOR
@@ -331,9 +333,9 @@ class Programa_Win(Tk):
         
         self.CodigoSapatilhaCadastroEntry = Entry(
             self, 
-            width = 40, 
+            width = 30, 
             justify = CENTER, 
-            font = ("Times New Roman", 14), 
+            font = ("Roboto", 14), 
             bd = 0, 
             fg = ENTRY_FG_COLOR, 
             bg = ENTRY_BG_COLOR
@@ -341,9 +343,9 @@ class Programa_Win(Tk):
         
         self.Sapato_cadastro = Entry(
             self, 
-            width = 40, 
+            width = 30, 
             justify = CENTER, 
-            font = ("Times New Roman", 14), 
+            font = ("Roboto", 14), 
             bd = 0, 
             fg = ENTRY_FG_COLOR, 
             bg = ENTRY_BG_COLOR
@@ -351,9 +353,9 @@ class Programa_Win(Tk):
         
         self.LarguraPeCadastroEntry = Entry(
             self, 
-            width = 40, 
+            width = 30, 
             justify = CENTER, 
-            font = ("Times New Roman", 14), 
+            font = ("Roboto", 14), 
             bd = 0, 
             fg = ENTRY_FG_COLOR, 
             bg = ENTRY_BG_COLOR
@@ -361,9 +363,9 @@ class Programa_Win(Tk):
         
         self.ComprimentoPeCadastroEntry = Entry(
             self, 
-            width = 40, 
+            width = 30, 
             justify = CENTER, 
-            font = ("Times New Roman", 14), 
+            font = ("Roboto", 14), 
             bd = 0, 
             fg = ENTRY_FG_COLOR, 
             bg = ENTRY_BG_COLOR
@@ -371,9 +373,9 @@ class Programa_Win(Tk):
         
         self.CalcanharMedidaCadastroEntry = Entry(
             self, 
-            width = 40, 
+            width = 30, 
             justify = CENTER, 
-            font = ("Times New Roman", 14), 
+            font = ("Roboto", 14), 
             bd = 0, 
             fg = ENTRY_FG_COLOR, 
             bg = ENTRY_BG_COLOR
@@ -381,9 +383,9 @@ class Programa_Win(Tk):
         
         self.PonteiraCadastroEntry = Entry(
             self, 
-            width = 40, 
+            width = 30, 
             justify = CENTER, 
-            font = ("Times New Roman", 14), 
+            font = ("Roboto", 14), 
             bd = 0, 
             fg = ENTRY_FG_COLOR, 
             bg = ENTRY_BG_COLOR
@@ -391,9 +393,9 @@ class Programa_Win(Tk):
         
         self.IdadeCadastroEntry = Entry(
             self, 
-            width = 40, 
+            width = 30, 
             justify = CENTER, 
-            font = ("Times New Roman", 14), 
+            font = ("Roboto", 14), 
             bd = 0, 
             fg = ENTRY_FG_COLOR, 
             bg = ENTRY_BG_COLOR
@@ -401,9 +403,9 @@ class Programa_Win(Tk):
         
         self.TempoBalletCadastroEntry = Entry(
             self, 
-            width = 40, 
+            width = 30, 
             justify = CENTER, 
-            font = ("Times New Roman", 14), 
+            font = ("Roboto", 14), 
             bd = 0, 
             fg = ENTRY_FG_COLOR, 
             bg = ENTRY_BG_COLOR
@@ -411,9 +413,9 @@ class Programa_Win(Tk):
         
         self.CargaHorariaCadastroEntry = Entry(
             self, 
-            width = 40, 
+            width = 30, 
             justify = CENTER, 
-            font = ("Times New Roman", 14), 
+            font = ("Roboto", 14), 
             bd = 0, 
             fg = ENTRY_FG_COLOR, 
             bg = ENTRY_BG_COLOR
@@ -421,9 +423,9 @@ class Programa_Win(Tk):
         
         self.EscolaCadastroEntry = Entry(
             self, 
-            width = 40, 
+            width = 30, 
             justify = CENTER, 
-            font = ("Times New Roman", 14), 
+            font = ("Roboto", 14), 
             bd = 0, 
             fg = ENTRY_FG_COLOR, 
             bg = ENTRY_BG_COLOR
@@ -431,9 +433,9 @@ class Programa_Win(Tk):
         
         self.ObservacaoCadastroEntry = Entry(
             self, 
-            width = 40, 
+            width = 30, 
             justify = CENTER, 
-            font = ("Times New Roman", 14), 
+            font = ("Roboto", 14), 
             bd = 0, 
             fg = ENTRY_FG_COLOR, 
             bg = ENTRY_BG_COLOR
@@ -441,9 +443,9 @@ class Programa_Win(Tk):
         
         self.NomeResponsavelCadastroEntry = Entry(
             self, 
-            width = 40, 
+            width = 30, 
             justify = CENTER, 
-            font = ("Times New Roman", 14), 
+            font = ("Roboto", 14), 
             bd = 0, 
             fg = ENTRY_FG_COLOR, 
             bg = ENTRY_BG_COLOR
@@ -451,9 +453,9 @@ class Programa_Win(Tk):
         
         self.CpfResposavelCadastroEntry = Entry(
             self, 
-            width = 40, 
+            width = 30, 
             justify = CENTER, 
-            font = ("Times New Roman", 14), 
+            font = ("Roboto", 14), 
             bd = 0, 
             fg = ENTRY_FG_COLOR, 
             bg = ENTRY_BG_COLOR
@@ -461,9 +463,9 @@ class Programa_Win(Tk):
         
         self.NumeroCadastroEntry = Entry(
             self, 
-            width = 40, 
+            width = 30, 
             justify = CENTER, 
-            font = ("Times New Roman", 14), 
+            font = ("Roboto", 14), 
             bd = 0, 
             fg = ENTRY_FG_COLOR, 
             bg = ENTRY_BG_COLOR
@@ -471,9 +473,9 @@ class Programa_Win(Tk):
         
         self.RuaCadastroEntry = Entry(
             self, 
-            width = 40, 
+            width = 30, 
             justify = CENTER, 
-            font = ("Times New Roman", 14), 
+            font = ("Roboto", 14), 
             bd = 0, 
             fg = ENTRY_FG_COLOR, 
             bg = ENTRY_BG_COLOR
@@ -481,9 +483,9 @@ class Programa_Win(Tk):
         
         self.CidadeCadastroEntry = Entry(
             self, 
-            width = 40, 
+            width = 30, 
             justify = CENTER, 
-            font = ("Times New Roman", 14), 
+            font = ("Roboto", 14), 
             bd = 0, 
             fg = ENTRY_FG_COLOR, 
             bg = ENTRY_BG_COLOR
@@ -491,9 +493,9 @@ class Programa_Win(Tk):
         
         self.UFCadastroEntry = Entry(
             self, 
-            width = 40, 
+            width = 30, 
             justify = CENTER, 
-            font = ("Times New Roman", 14), 
+            font = ("Roboto", 14), 
             bd = 0, 
             fg = ENTRY_FG_COLOR, 
             bg = ENTRY_BG_COLOR
@@ -501,14 +503,14 @@ class Programa_Win(Tk):
         
 
         # Criação Buttons
-        self.Cadastra = Button(self, font=("Times New Roman", 16), text="Confirma", width=10, bg="white",
-                                      fg=THECOLOR, activebackground=THECOLOR, activeforeground="white",
+        self.Cadastra = Button(self, font=("Roboto", 16), text="Confirma", width=10, bg="white",
+                                        activebackground=THECOLOR, activeforeground="white",
                                       highlightcolor="white", highlightbackground="white", bd=0, cursor="hand2")
 
         
 
-        self.voltar_menu_principal = Button(self, font=("Times New Roman", 16), text="Voltar", width=10, cursor="hand2",
-                                    bg="white", fg=THECOLOR, activebackground=THECOLOR, activeforeground="white",
+        self.voltar_menu_principal = Button(self, font=("Roboto", 16), text="Voltar", width=10, cursor="hand2",
+                                    bg="white",   activebackground=THECOLOR, activeforeground="white",
                                     highlightcolor="white", highlightbackground="white", bd=0)
         
 
@@ -540,13 +542,13 @@ class Programa_Win(Tk):
 
         # Layout Entry
         EntryX: int = LabelsX + 25
-        EntryY: int = 143
+        EntryY: int = 145
 
         Entry2X: int = Labels2X + 25
         Entry3X: int = Labels3X + 25
 
         # Titulo
-        self.titulo_cadastro.place(x=430, y=15)
+        self.titulo_cadastro.place(x=310, y=10)
 
         # Labels desenho
 
@@ -640,70 +642,70 @@ class Programa_Win(Tk):
 
         # Labels
 
-        self.titulo_editar = Label(self, font=("Times New Roman", 24), text="Edição de Cliente", bg="#fff", width=30,
+        self.titulo_editar = Label(self, font=("Roboto Lt", 30), text="Edição de Cliente", bg="#fff", width=30,
                                    anchor=CENTER, bd=20)
 
-        self.nome_editar = Label(self, font=("Times New Roman", 14), text="Nome:", bg="#fff", width=40,
+        self.nome_editar = Label(self, font=("Roboto", 14), text="Nome:", bg="#fff", width=35,
                                  anchor=CENTER, bd=5)
 
-        self.sapato_editar = Label(self, font=("Times New Roman", 14), text="Tamanho do pé:", bg="#fff", width=40,
+        self.sapato_editar = Label(self, font=("Roboto", 14), text="Tamanho do pé:", bg="#fff", width=35,
                                    anchor=CENTER, bd=5)
 
-        self.LarguraPeEditar = Label(self, font=("Times New Roman", 14), text="Lárgura do pé:", bg="#fff", width=40,
+        self.LarguraPeEditar = Label(self, font=("Roboto", 14), text="Lárgura do pé:", bg="#fff", width=35,
                                      anchor=CENTER, bd=5)
 
-        self.NomeResponsavelEditar = Label(self, font=("Times New Roman", 14), text="Nome do Responsável:",
-                                           bg="#fff", width=40, anchor=CENTER, bd=5)
+        self.NomeResponsavelEditar = Label(self, font=("Roboto", 14), text="Nome do Responsável:",
+                                           bg="#fff", width=35, anchor=CENTER, bd=5)
 
-        self.CpfResposavelEditar = Label(self, font=("Times New Roman", 14), text="CPF do responsável:", bg="#fff",
-                                         width=40, anchor=CENTER, bd=5)
+        self.CpfResposavelEditar = Label(self, font=("Roboto", 14), text="CPF do responsável:", bg="#fff",
+                                         width=35, anchor=CENTER, bd=5)
 
-        self.ComprimentoPeEditar = Label(self, font=("Times New Roman", 14), text="Comprimento do pé:", bg="#fff",
-                                         width=40, anchor=CENTER, bd=5)
+        self.ComprimentoPeEditar = Label(self, font=("Roboto", 14), text="Comprimento do pé:", bg="#fff",
+                                         width=35, anchor=CENTER, bd=5)
 
-        self.CalcanharMedidaEditar = Label(self, font=("Times New Roman", 14), text="Medido do calcanhar:",
-                                           bg="#fff", width=40, anchor=CENTER, bd=5)
+        self.CalcanharMedidaEditar = Label(self, font=("Roboto", 14), text="Medido do calcanhar:",
+                                           bg="#fff", width=35, anchor=CENTER, bd=5)
 
-        self.PonteiraEditar = Label(self, font=("Times New Roman", 14), text="Ponteira:", bg="#fff", width=40,
+        self.PonteiraEditar = Label(self, font=("Roboto", 14), text="Ponteira:", bg="#fff", width=35,
                                     anchor=CENTER, bd=5)
 
-        self.IdadeEditar = Label(self, font=("Times New Roman", 14), text="Idade:", bg="#fff", width=40,
+        self.IdadeEditar = Label(self, font=("Roboto", 14), text="Idade:", bg="#fff", width=35,
                                  anchor=CENTER, bd=5)
 
-        self.TempoBalletEditar = Label(self, font=("Times New Roman", 14), text="Tempo de Ballet:", bg="#fff",
-                                       width=40, anchor=CENTER, bd=5)
+        self.TempoBalletEditar = Label(self, font=("Roboto", 14), text="Tempo de Ballet:", bg="#fff",
+                                       width=35, anchor=CENTER, bd=5)
 
-        self.CargaHorariaEditar = Label(self, font=("Times New Roman", 14), text="Carga Horária:", bg="#fff",
-                                        width=40, anchor=CENTER, bd=5)
+        self.CargaHorariaEditar = Label(self, font=("Roboto", 14), text="Carga Horária:", bg="#fff",
+                                        width=35, anchor=CENTER, bd=5)
 
-        self.EscolaEditar = Label(self, font=("Times New Roman", 14), text="Escola:", bg="#fff", width=40,
+        self.EscolaEditar = Label(self, font=("Roboto", 14), text="Escola:", bg="#fff", width=35,
                                   anchor=CENTER, bd=5)
 
-        self.CodigoSapatilhaEditar = Label(self, font=("Times New Roman", 14), text="Código da sapatilha:",
-                                           bg="#fff", width=40, anchor=CENTER, bd=5)
+        self.CodigoSapatilhaEditar = Label(self, font=("Roboto", 14), text="Código da sapatilha:",
+                                           bg="#fff", width=35, anchor=CENTER, bd=5)
 
-        self.RuaEditar = Label(self, font=("Times New Roman", 14), text="Rua:", bg="#fff", width=40,
+        self.RuaEditar = Label(self, font=("Roboto", 14), text="Rua:", bg="#fff", width=35,
                                anchor=CENTER, bd=5)
 
-        self.NumeroEditar = Label(self, font=("Times New Roman", 14), text="Telefone:", bg="#fff", width=40,
+        self.NumeroEditar = Label(self, font=("Roboto", 14), text="Telefone:", bg="#fff", width=35,
                                   anchor=CENTER, bd=5)
 
-        self.CidadeEditar = Label(self, font=("Times New Roman", 14), text="Cidade:", bg="#fff", width=40,
+        self.CidadeEditar = Label(self, font=("Roboto", 14), text="Cidade:", bg="#fff", width=35,
                                   anchor=CENTER, bd=5)
 
-        self.UFEditar = Label(self, font=("Times New Roman", 14), text="UF:", bg="#fff", width=40,
+        self.UFEditar = Label(self, font=("Roboto", 14), text="UF:", bg="#fff", width=35,
                               anchor=CENTER, bd=5)
 
-        self.ObservacaoEditar = Label(self, font=("Times New Roman", 14), text="Observação:", bg="#fff", width=40,
+        self.ObservacaoEditar = Label(self, font=("Roboto", 14), text="Observação:", bg="#fff", width=35,
                               anchor=CENTER, bd=5)
                               
         # Entrys
 
         self.Nome_editar = Entry(
             self, 
-            width = 40, 
+            width = 30, 
             justify = CENTER, 
-            font = ("Times New Roman", 14), 
+            font = ("Roboto", 14), 
             bd = 0, 
             fg = ENTRY_FG_COLOR, 
             bg = ENTRY_BG_COLOR
@@ -711,9 +713,9 @@ class Programa_Win(Tk):
 
         self.CodigoSapatilhaEditarEntry = Entry(
             self, 
-            width = 40, 
+            width = 30, 
             justify = CENTER, 
-            font = ("Times New Roman", 14), 
+            font = ("Roboto", 14), 
             bd = 0, 
             fg = ENTRY_FG_COLOR, 
             bg = ENTRY_BG_COLOR
@@ -721,9 +723,9 @@ class Programa_Win(Tk):
 
         self.Sapato_editar = Entry(
             self, 
-            width = 40, 
+            width = 30, 
             justify = CENTER, 
-            font = ("Times New Roman", 14), 
+            font = ("Roboto", 14), 
             bd = 0, 
             fg = ENTRY_FG_COLOR, 
             bg = ENTRY_BG_COLOR
@@ -731,9 +733,9 @@ class Programa_Win(Tk):
 
         self.LarguraPeEditarEntry = Entry(
             self, 
-            width = 40, 
+            width = 30, 
             justify = CENTER, 
-            font = ("Times New Roman", 14), 
+            font = ("Roboto", 14), 
             bd = 0, 
             fg = ENTRY_FG_COLOR, 
             bg = ENTRY_BG_COLOR
@@ -741,9 +743,9 @@ class Programa_Win(Tk):
 
         self.ComprimentoPeEditarEntry = Entry(
             self, 
-            width = 40, 
+            width = 30, 
             justify = CENTER, 
-            font = ("Times New Roman", 14), 
+            font = ("Roboto", 14), 
             bd = 0, 
             fg = ENTRY_FG_COLOR, 
             bg = ENTRY_BG_COLOR
@@ -751,9 +753,9 @@ class Programa_Win(Tk):
         
         self.CalcanharMedidaEditarEntry = Entry(
             self, 
-            width = 40, 
+            width = 30, 
             justify = CENTER, 
-            font = ("Times New Roman", 14), 
+            font = ("Roboto", 14), 
             bd = 0, 
             fg = ENTRY_FG_COLOR, 
             bg = ENTRY_BG_COLOR
@@ -761,9 +763,9 @@ class Programa_Win(Tk):
         
         self.PonteiraEditarEntry = Entry(
             self, 
-            width = 40, 
+            width = 30, 
             justify = CENTER, 
-            font = ("Times New Roman", 14), 
+            font = ("Roboto", 14), 
             bd = 0, 
             fg = ENTRY_FG_COLOR, 
             bg = ENTRY_BG_COLOR
@@ -771,9 +773,9 @@ class Programa_Win(Tk):
         
         self.IdadeEditarEntry = Entry(
             self, 
-            width = 40, 
+            width = 30, 
             justify = CENTER, 
-            font = ("Times New Roman", 14), 
+            font = ("Roboto", 14), 
             bd = 0, 
             fg = ENTRY_FG_COLOR, 
             bg = ENTRY_BG_COLOR
@@ -781,9 +783,9 @@ class Programa_Win(Tk):
         
         self.TempoBalletEditarEntry = Entry(
             self, 
-            width = 40, 
+            width = 30, 
             justify = CENTER, 
-            font = ("Times New Roman", 14), 
+            font = ("Roboto", 14), 
             bd = 0, 
             fg = ENTRY_FG_COLOR, 
             bg = ENTRY_BG_COLOR
@@ -791,9 +793,9 @@ class Programa_Win(Tk):
         
         self.CargaHorariaEditarEntry = Entry(
             self, 
-            width = 40, 
+            width = 30, 
             justify = CENTER, 
-            font = ("Times New Roman", 14), 
+            font = ("Roboto", 14), 
             bd = 0, 
             fg = ENTRY_FG_COLOR, 
             bg = ENTRY_BG_COLOR
@@ -801,9 +803,9 @@ class Programa_Win(Tk):
         
         self.EscolaEditarEntry = Entry(
             self, 
-            width = 40, 
+            width = 30, 
             justify = CENTER, 
-            font = ("Times New Roman", 14), 
+            font = ("Roboto", 14), 
             bd = 0, 
             fg = ENTRY_FG_COLOR, 
             bg = ENTRY_BG_COLOR
@@ -811,9 +813,9 @@ class Programa_Win(Tk):
         
         self.ObservacaoEditarEntry = Entry(
             self, 
-            width = 40, 
+            width = 30, 
             justify = CENTER, 
-            font = ("Times New Roman", 14), 
+            font = ("Roboto", 14), 
             bd = 0, 
             fg = ENTRY_FG_COLOR, 
             bg = ENTRY_BG_COLOR
@@ -821,9 +823,9 @@ class Programa_Win(Tk):
         
         self.NomeResponsavelEditarEntry = Entry(
             self, 
-            width = 40, 
+            width = 30, 
             justify = CENTER, 
-            font = ("Times New Roman", 14), 
+            font = ("Roboto", 14), 
             bd = 0, 
             fg = ENTRY_FG_COLOR, 
             bg = ENTRY_BG_COLOR
@@ -831,9 +833,9 @@ class Programa_Win(Tk):
         
         self.CpfResposavelEditarEntry = Entry(
             self, 
-            width = 40, 
+            width = 30, 
             justify = CENTER, 
-            font = ("Times New Roman", 14), 
+            font = ("Roboto", 14), 
             bd = 0, 
             fg = ENTRY_FG_COLOR, 
             bg = ENTRY_BG_COLOR
@@ -841,9 +843,9 @@ class Programa_Win(Tk):
         
         self.NumeroEditarEntry = Entry(
             self, 
-            width = 40, 
+            width = 30, 
             justify = CENTER, 
-            font = ("Times New Roman", 14), 
+            font = ("Roboto", 14), 
             bd = 0, 
             fg = ENTRY_FG_COLOR, 
             bg = ENTRY_BG_COLOR
@@ -851,9 +853,9 @@ class Programa_Win(Tk):
         
         self.RuaEditarEntry = Entry(
             self, 
-            width = 40, 
+            width = 30, 
             justify = CENTER, 
-            font = ("Times New Roman", 14), 
+            font = ("Roboto", 14), 
             bd = 0, 
             fg = ENTRY_FG_COLOR, 
             bg = ENTRY_BG_COLOR
@@ -861,9 +863,9 @@ class Programa_Win(Tk):
         
         self.CidadeEditarEntry = Entry(
             self, 
-            width = 40, 
+            width = 30, 
             justify = CENTER, 
-            font = ("Times New Roman", 14), 
+            font = ("Roboto", 14), 
             bd = 0, 
             fg = ENTRY_FG_COLOR, 
             bg = ENTRY_BG_COLOR
@@ -871,9 +873,9 @@ class Programa_Win(Tk):
         
         self.UFEditarEntry = Entry(
             self, 
-            width = 40, 
+            width = 30, 
             justify = CENTER, 
-            font = ("Times New Roman", 14), 
+            font = ("Roboto", 14), 
             bd = 0, 
             fg = ENTRY_FG_COLOR, 
             bg = ENTRY_BG_COLOR
@@ -881,12 +883,12 @@ class Programa_Win(Tk):
         
         # Buttons
 
-        self.Confirma_editar = Button(self, font=("Times New Roman", 16), text="Confirma", width=10, bg="white",
-                                      fg=THECOLOR, activebackground=THECOLOR, activeforeground="white",
+        self.Confirma_editar = Button(self, font=("Roboto", 16), text="Confirma", width=10, bg="white",
+                                        activebackground=THECOLOR, activeforeground="white",
                                       highlightcolor="white", highlightbackground="white", bd=0, cursor="hand2")
 
-        self.Voltar_editar = Button(self, font=("Times New Roman", 16), text="Voltar", width=10, cursor="hand2",
-                                    bg="white", fg=THECOLOR, activebackground=THECOLOR, activeforeground="white",
+        self.Voltar_editar = Button(self, font=("Roboto", 16), text="Voltar", width=10, cursor="hand2",
+                                    bg="white",   activebackground=THECOLOR, activeforeground="white",
                                     highlightcolor="white", highlightbackground="white", bd=0)
 
         self.W = [self.titulo_editar, self.nome_editar, self.sapato_editar, self.LarguraPeEditar,
@@ -989,7 +991,7 @@ class Programa_Win(Tk):
         Labels3X: int = 840
 
         # Layout Entry
-        EntryY: int = 143
+        EntryY: int = 145
 
         EntryX: int = LabelsX + 25
         Entry2X: int = Labels2X + 25
@@ -998,7 +1000,7 @@ class Programa_Win(Tk):
         
         # Desenha Titulo
 
-        self.titulo_editar.place(x=430, y=15)
+        self.titulo_editar.place(x=310, y=10)
 
         #  Desenha Labels
 
@@ -1073,7 +1075,7 @@ class Programa_Win(Tk):
 
             self.titulo_buscar_E = Label(
                 self, 
-                font=("Times New Roman", 24),
+                font=("Roboto", 24),
                 text="Nenhuma cliente com \n   esse tamanho de pé", 
                 bg="#fff", 
                 width=30,
@@ -1083,13 +1085,13 @@ class Programa_Win(Tk):
 
             self.Voltar_buuscar_E = Button(
                 self, 
-                font=("Times New Roman", 20), 
+                font=("Roboto", 20), 
                 text="Voltar", 
                 cursor="exchange",
                 command=self.janela_buscar, 
                 highlightbackground=THECOLOR,
                 highlightcolor=THECOLOR, 
-                fg=THECOLOR, 
+                  
                 bg="white", 
                 activebackground=THECOLOR,
                 activeforeground="white", 
@@ -1121,7 +1123,7 @@ class Programa_Win(Tk):
 
             self.titulo_buscar = Label(
                 self, 
-                font=("Times New Roman", 20),
+                font=("Roboto", 20),
                 text="  " + "Nome:" + (m_tam) * "  " + "Sapato:",
                 width=geral_width_label + 6, 
                 bg="#fff", 
@@ -1133,7 +1135,7 @@ class Programa_Win(Tk):
             self.ScrollableFrameSapatos = ScrollableFrame(
                 self,
                 self, 
-                width=1316, 
+                width=1450, 
                 height=512,
                 bg=BGCOLOR,
                 highlightbackground='#facacd'
@@ -1157,32 +1159,41 @@ class Programa_Win(Tk):
                         self.ScrollableFrameSapatos.scrollable_frame,
                         bg=BGCOLOR
                     )
-                    FrameCLienteSapatos.columnconfigure(0, weight=1)
-                    FrameCLienteSapatos.columnconfigure(1, weight=2)
+                    FrameCLienteSapatos.columnconfigure(0, weight=4)
+                    FrameCLienteSapatos.columnconfigure(1, weight=4)
+                    FrameCLienteSapatos.columnconfigure(2, weight=2)
 
                     # label da cliente
-                    LabelClientesSapatos = Label(
-                        FrameCLienteSapatos,
-                        font=("Times New Roman", 20),
-                        text=f"  {self.lista_clientes[cliente][0]}" + (m_tam - len(self.lista_clientes[cliente][0])) * "  "+f"\t{self.lista_clientes[cliente][1]}",
-                        width=geral_width_label,
-                        bg="#fff",
-                        anchor=W
+                    LabelClientesSapatosNome = Label(
+				    	FrameCLienteSapatos,
+                        font=( 'Roboto', 20 ),
+				        text=f"  {self.lista_clientes[cliente][0]}",
+				        width = int(geral_width_label / 2),
+				        bg="#fff",
+				        anchor=W
                     )
                     
+                    LabelClienteSapatosSapato = Label ( 
+                    	FrameCLienteSapatos, 
+                    	font=( 'Roboto', 20 ), 
+                    	text=f"{self.lista_clientes[cliente][1]}", 
+                    	width = int(geral_width_label / 2), 
+                    	bg="#fff", 
+                    	anchor=W 
+                    )
                     # botao da cliente
-                    BotaoClienteSapatos = Button(
+                    BotaoClienteSapatos = Button(	
                         FrameCLienteSapatos,
-                        font=("Times New Roman", 14),
-                        text="Ver Mais", bg="#ffebff",
-                        highlightcolor="white", 
-                        cursor='hand2',
-                        highlightbackground="white", 
-                        fg=THECOLOR, 
-                        height=1,
-                        activebackground=THECOLOR, 
-                        activeforeground="white", 
-                        bd=0
+                        font=("Roboto", 12),
+				        text="Ver Mais", bg="#ff9198",
+				        highlightcolor="white", 
+				        cursor='hand2',
+				        highlightbackground="white", 
+				        height=1,
+				        width = 8,
+				        activebackground=THECOLOR, 
+				        activeforeground="white", 
+				        bd=0
                     )
 
                     # comando e binds
@@ -1190,11 +1201,12 @@ class Programa_Win(Tk):
                     BotaoClienteSapatos.bind('<Return>', lambda event, Salvo=cliente: self.janela_usuario_escolhido(Salvo, Initial, 'sapato'))
 
                     # desenho dentro do frame
-                    LabelClientesSapatos.grid(column=0, row=0, pady=10,sticky="wens")
-                    BotaoClienteSapatos.grid(column=1, row=0, pady=10, sticky="wens")
+                    LabelClientesSapatosNome.grid(column=0, row=0, pady=10,sticky="wens")
+                    LabelClienteSapatosSapato.grid(column=1, row=0, pady=10, sticky='wens')
+                    BotaoClienteSapatos.grid(column=2, row=0, pady=10, sticky="wens")
 
                     # desenho do bloco de cliente  dentroframe arrastavel
-                    FrameCLienteSapatos.grid(padx=5)
+                    FrameCLienteSapatos.grid(padx=5, sticky='news')
                 
                 # atualiza o numero de clientes carregadas
                 frame.numberOfChilds = frame.numberOfChilds + len(listaClientesAdicionaraNoFrame)
@@ -1211,14 +1223,12 @@ class Programa_Win(Tk):
             # definindo botão de voltar
             self.Voltar_buuscar = Button(
                 self,
-                font=("Times New Roman", 18), 
+                font=("Roboto", 18), 
                 text="Voltar",
                 cursor="hand2", 
                 highlightbackground="white", 
                 highlightcolor="white",
-                bd=0, 
-                bg="white", 
-                fg=THECOLOR, 
+                bd=0, bg="#ff9198", 
                 activebackground=THECOLOR,
                 activeforeground="white"
             )
@@ -1234,6 +1244,200 @@ class Programa_Win(Tk):
 
             # placing widgets
             self.ScrollableFrameSapatos.place(x = 30, y = 60 )
+            self.titulo_buscar.place(x=self.Aling + 5, y=15)
+            self.Voltar_buuscar.place(x=100, y=600)
+    
+    # Terminada Abaixo
+    def janela_listagem_mesmo_codigo(self, Initial):
+
+        self.janela_clear()
+
+        # layout align
+
+        self.Aling: int = 30
+
+
+        self.lista_multiplo_codigo = []
+        self.codigo_busca_g = str(self.Sapato_janela_buscar_entry.get()).upper()
+        self.lista_multiplo_codigo = buscap_codigo(self.codigo_busca_g, self.lista_clientes)
+        Initial
+
+        # se a lista de clientes com o mesmo pé estiver vazia
+        if self.lista_multiplo_codigo == []:
+
+            self.janela_clear()
+
+            self.titulo_buscar_E = Label(
+                self, 
+                font=("Roboto", 24),
+                text="Nenhuma cliente com \n   esse tamanho de pé", 
+                bg="#fff", 
+                width=30,
+                anchor=CENTER, 
+                bd=20
+            )
+
+            self.Voltar_buuscar_E = Button(
+                self, 
+                font=("Roboto", 20), 
+                text="Voltar", 
+                cursor="exchange",
+                command=self.janela_buscar, 
+                highlightbackground=THECOLOR,
+                highlightcolor=THECOLOR, 
+                  
+                bg="white", 
+                activebackground=THECOLOR,
+                activeforeground="white", 
+                bd=0
+            )
+
+            self.Voltar_buuscar_E.bind('<Return>', lambda event: self.janela_buscar())
+            
+            self.W = [self.titulo_buscar_E, self.Voltar_buuscar_E]
+
+            self.titulo_buscar_E.place(x=430, y=15)
+            self.Voltar_buuscar_E.place(x=660, y=240)
+        
+        else:
+
+            self.janela_clear()
+
+            lista_tam_nomes = []
+            for x in range(0, len(self.lista_multiplo_codigo)):
+                lista_tam_nomes.append(len(self.lista_clientes[x][0]))
+            m_tam = define_maior_str(lista_tam_nomes)
+
+            # width general
+            geral_width_label = 80
+
+            # definindo widgets
+
+            # label titulo
+
+            self.titulo_buscar = Label(
+                self, 
+                font=("Roboto", 20),
+                text="  " + "Nome:" + (m_tam) * "  " + "Código:",
+                width=geral_width_label + 6, 
+                bg="#fff", 
+                anchor=W
+            )
+
+            # scrollable frame
+
+            self.ScrollableFrameCodigos = ScrollableFrame(
+                self,
+                self, 
+                width=1450, 
+                height=512,
+                bg=BGCOLOR,
+                highlightbackground='#facacd'
+            )
+
+            
+            # adiciona clientes no frame arrastavel
+            def adicionaBlocosClientesNoScrollableFrame(frame: ScrollableFrame, listaClientes: list):
+                
+                # se ja tiver carregado um numero igual ao tamanho da lista retorna
+                if frame.numberOfChilds == len(listaClientes):
+                    return
+                
+                # corta a lista entre o numero de clientes que ja foram adicionadas e umintervalo de 10 clientes
+                listaClientesAdicionaraNoFrame = listaClientes[frame.numberOfChilds:frame.numberOfChilds + 10]
+                
+                for cliente in listaClientesAdicionaraNoFrame:
+                    
+                    # bloco para cada cliente
+                    FrameClientesCodigos = Frame(
+                        self.ScrollableFrameCodigos.scrollable_frame,
+                        bg=BGCOLOR
+                    )
+                    FrameClientesCodigos.columnconfigure(0, weight=4)
+                    FrameClientesCodigos.columnconfigure(1, weight=4)
+                    FrameClientesCodigos.columnconfigure(2, weight=2)
+
+                    # label da cliente
+                    LabelClientesCodigosNome = Label(
+				    	FrameClientesCodigos,
+                        font=( 'Roboto', 20 ),
+				        text=f"  {self.lista_clientes[cliente][0]}",
+				        width = int(geral_width_label / 2),
+				        bg="#fff",
+				        anchor=W
+                    )
+                    
+                    LabelClienteCodigosCodigos = Label ( 
+                    	FrameClientesCodigos, 
+                    	font=( 'Roboto', 20 ), 
+                    	text=f"{self.lista_clientes[cliente][12]}", 
+                    	width = int(geral_width_label / 2), 
+                    	bg="#fff", 
+                    	anchor=W 
+                    )
+                    # botao da cliente
+                    BotaoClienteCodigos = Button(	
+                        FrameClientesCodigos,
+                        font=("Roboto", 12),
+				        text="Ver Mais", bg="#ff9198",
+				        highlightcolor="white", 
+				        cursor='hand2',
+				        highlightbackground="white", 
+				        height=1,
+				        width = 8,
+				        activebackground=THECOLOR, 
+				        activeforeground="white", 
+				        bd=0
+                    )
+
+                    # comando e binds
+                    BotaoClienteCodigos["command"] = lambda Salvo=cliente: self.janela_usuario_escolhido(Salvo, Initial, 'sapato')
+                    BotaoClienteCodigos.bind('<Return>', lambda event, Salvo=cliente: self.janela_usuario_escolhido(Salvo, Initial, 'sapato'))
+
+                    # desenho dentro do frame
+                    LabelClientesCodigosNome.grid(column=0, row=0, pady=10,sticky="wens")
+                    LabelClienteCodigosCodigos.grid(column=1, row=0, pady=10, sticky='wens')
+                    BotaoClienteCodigos.grid(column=2, row=0, pady=10, sticky="wens")
+
+                    # desenho do bloco de cliente  dentroframe arrastavel
+                    FrameClientesCodigos.grid(padx=5, sticky='news')
+                
+                # atualiza o numero de clientes carregadas
+                frame.numberOfChilds = frame.numberOfChilds + len(listaClientesAdicionaraNoFrame)
+            
+            # se é a primeria vez que carrega o frame arrastavel
+            if self.ScrollableFrameCodigos.scrollbar.get()[1] == 0.0:
+                adicionaBlocosClientesNoScrollableFrame(self.ScrollableFrameCodigos, self.lista_multiplo_codigo)
+            
+            # setando a função para evento onEnd do Frame Arrastavel
+            self.ScrollableFrameCodigos.setOnEnd(lambda : adicionaBlocosClientesNoScrollableFrame(self.ScrollableFrameCodigos, self.lista_multiplo_codigo))
+
+
+
+            # definindo botão de voltar
+            self.Voltar_buuscar = Button(
+                self,
+                font=("Roboto", 18), 
+                text="Voltar",
+                cursor="hand2", 
+                highlightbackground="white", 
+                highlightcolor="white",
+                bd=0, bg="#ff9198", 
+                activebackground=THECOLOR,
+                activeforeground="white"
+            )
+
+            #comandos de botões voltar
+            self.Voltar_buuscar["command"] = lambda: self.janela_buscar()
+
+            # bind botão voltar
+            self.Voltar_buuscar.bind('<Return>', lambda event: self.janela_buscar())
+
+            # self.W
+            self.W = [ self.titulo_buscar, self.ScrollableFrameCodigos, self.Voltar_buuscar ]
+
+            # placing widgets
+            self.ScrollableFrameCodigos.place(x = 30, y = 60 )
             self.titulo_buscar.place(x=self.Aling + 5, y=15)
             self.Voltar_buuscar.place(x=100, y=600)
 
@@ -1259,7 +1463,7 @@ class Programa_Win(Tk):
             
             self.titulo_buscar_E = Label(
                 self, 
-                font=("Times New Roman", 24), 
+                font=("Roboto", 24), 
                 text="Cliente não Cadastrada",
                 bg="#fff",
                 width=30, 
@@ -1269,13 +1473,13 @@ class Programa_Win(Tk):
 
             self.Voltar_buuscar_E = Button(
                 self, 
-                font=("Times New Roman", 20), 
+                font=("Roboto", 20), 
                 text="Voltar", 
                 cursor="hand2",
                 command=self.janela_buscar, 
                 highlightbackground=THECOLOR,
                 highlightcolor=THECOLOR, 
-                fg=THECOLOR, bg="white", 
+                  bg="white", 
                 activebackground=THECOLOR,
                 activeforeground="white", 
                 bd=0
@@ -1307,7 +1511,7 @@ class Programa_Win(Tk):
 
             self.titulo_buscar = Label(
                 self,
-                font=("Times New Roman", 20),
+                font=("Roboto", 20),
                 text="  " + "Nome:" + (m_tam) * "  " + "Sapato:",
                 width=geral_width_label + 6,
                 bg="#fff",
@@ -1320,7 +1524,7 @@ class Programa_Win(Tk):
             self.ScrollableFrameNomes = ScrollableFrame(
                 self,
                 self, 
-                width=1316, 
+                width=1450, 
                 height=512,
                 bg=BGCOLOR,
                 highlightbackground='#facacd'
@@ -1343,32 +1547,40 @@ class Programa_Win(Tk):
                         self.ScrollableFrameNomes.scrollable_frame,
                         bg=BGCOLOR
                     )
-                    FrameCLienteNomes.columnconfigure(0, weight=1)
-                    FrameCLienteNomes.columnconfigure(1, weight=2)
-
-                    # label da cliente
+                    FrameCLienteNomes.columnconfigure(0, weight=4)
+                    FrameCLienteNomes.columnconfigure(1, weight=4)
+                    FrameCLienteNomes.columnconfigure(2, weight=2)
                     LabelClienteNomes = Label(
                         FrameCLienteNomes,
-                        font=("Times New Roman", 20),
-                        text=f"  {self.lista_clientes[cliente][0]}" + (m_tam - len(self.lista_clientes[cliente][0])) * "  "+f"\t{self.lista_clientes[cliente][1]}",
-                        width=geral_width_label,
+                        font=( 'Roboto', 20 ),
+                        text=f"  {self.lista_clientes[cliente][0]}",
+                        width = int(geral_width_label / 2),
                         bg="#fff",
                         anchor=W
                     )
+                    LabelClienteSapatos = Label(
+                    	FrameCLienteNomes,
+                        font=( 'Roboto', 20 ),
+                        text=f"{self.lista_clientes[cliente][1]}",
+                        width = int(geral_width_label / 2),
+                        bg="#fff",
+                        anchor=W
+                    	)
+
                     
                     # botao da cliente
                     BotaoClienteNomes = Button(
                         FrameCLienteNomes,
-                        font=("Times New Roman", 14),
-                        text="Ver Mais", bg="#ffebff",
-                        highlightcolor="white", 
-                        cursor='hand2',
-                        highlightbackground="white", 
-                        fg=THECOLOR, 
-                        height=1,
-                        activebackground=THECOLOR, 
-                        activeforeground="white", 
-                        bd=0
+                        font=("Roboto", 12),
+	                    text="Ver Mais", bg="#ff9198",
+	                    highlightcolor="white", 
+	                    cursor='hand2',
+	                    highlightbackground="white", 
+	                    height=1,
+	                    width = 8,
+	                    activebackground=THECOLOR, 
+	                    activeforeground="white", 
+	                    bd=0
                     )
 
                     # comando e binds
@@ -1377,10 +1589,11 @@ class Programa_Win(Tk):
 
                     # desenho dentro do frame
                     LabelClienteNomes.grid(column=0, row=0, pady=10,sticky="wens")
-                    BotaoClienteNomes.grid(column=1, row=0, pady=10, sticky="wens")
+                    LabelClienteSapatos.grid(column=1, row=0, pady=10,sticky="wens")
+                    BotaoClienteNomes.grid(column=2, row=0, pady=10, sticky="wens")
 
                     # desenho do bloco de cliente  dentroframe arrastavel
-                    FrameCLienteNomes.grid(padx=5)
+                    FrameCLienteNomes.grid(padx=5, sticky='news')
                 
                 # atualiza o numero de clientes carregadas
                 frame.numberOfChilds = frame.numberOfChilds + len(listaClientesAdicionaraNoFrame)
@@ -1397,14 +1610,12 @@ class Programa_Win(Tk):
 
             self.Voltar_buuscar = Button(
                 self,
-                font=("Times New Roman", 18), 
+                font=("Roboto", 18), 
                 text="Voltar",
                 cursor="hand2", 
                 highlightbackground="white", 
                 highlightcolor="white",
-                bd=0, 
-                bg="white", 
-                fg=THECOLOR, 
+                bd=0, bg="#ff9198", 
                 activebackground=THECOLOR,
                 activeforeground="white"
             )
@@ -1431,26 +1642,47 @@ class Programa_Win(Tk):
 
         # layout
 
-        ButtonAling: int = 880
+        ButtonAling: int = 1000
         AllAling: int = 410
         LabelAling: int = 450
         EntryAling: int = 465
         # widgets
-        self.titulo_buscar = Label(self, font=("Times New Roman", 24), text="Busca de Cliente", bg="#fff",
-                                   width=35, anchor=CENTER, bd=20)
+        self.titulo_buscar = Label(
+        	self, 
+        	font=("Roboto", 24), 
+        	text="Busca de Cliente", 
+        	bg="#fff",
+			width=80, 
+			anchor=CENTER, 
+			bd=20
+			)
 
-        self.nome_buscar = Label(self, font=("Times New Roman", 18), text="Nome:", bg="#fff",
-                                 width=30, anchor=CENTER, bd=5)
+        self.nome_buscar = Label(
+        	self, 
+        	font=("Roboto", 18), 
+        	text="Nome:", 
+        	bg="#fff",
+			width=30, 
+			anchor=CENTER, 
+			bd=5
+			)
 
-        self.sapato_buscar = Label(self, font=("Times New Roman", 18), text="Sapato:", bg="#fff",
-                                   width=30, anchor=CENTER, bd=5)
+        self.sapato_buscar = Label(
+        	self, 
+        	font=("Roboto", 18), 
+        	text="Código ou Sapato:", 
+        	bg="#fff",
+			width=30, 
+			anchor=CENTER, 
+			bd=5
+			)
 
 
         self.Nome_janela_buscar_entry= Entry(
             self, 
-            width = 40, 
+            width = 36, 
             justify = CENTER, 
-            font = ("Times New Roman", 14), 
+            font = ("Roboto", 14), 
             bd = 0, 
             fg = ENTRY_FG_COLOR, 
             bg = ENTRY_BG_COLOR
@@ -1458,30 +1690,62 @@ class Programa_Win(Tk):
 
         self.Sapato_janela_buscar_entry = Entry(
             self, 
-            width = 40, 
+            width = 36, 
             justify = CENTER, 
-            font = ("Times New Roman", 14), 
+            font = ("Roboto", 14), 
             bd = 0, 
             fg = ENTRY_FG_COLOR, 
             bg = ENTRY_BG_COLOR
         )
-        self.Busca_p_nome = Button(self, font=("Times New Roman", 14), text="Busca por Nome", width=13,
-                                        highlightcolor="white", highlightbackground="white", bg="white",
-                                        fg=THECOLOR, activebackground=THECOLOR, activeforeground="white", bd=0,
-                                        cursor="hand2")
+        self.Busca_p_nome = Button(
+        	self,
+        	font=("Roboto", 14),
+        	text="  Busca por Nome  ",
+        	highlightbackground="white", 
+			highlightcolor="white",
+			bd=0, bg="#ff9198", 
+			activebackground=THECOLOR,
+			activeforeground="white",
+			width=15
+			)
 
-        self.Busca_p_sapato = Button(self, font=("Times New Roman", 14), text="Busca por Sapato", width=13,
-                                        highlightcolor="white", highlightbackground="white", bg="white",
-                                        fg=THECOLOR, activebackground=THECOLOR, activeforeground="white", bd=0,
-                                        cursor="hand2")
+        self.Busca_p_sapato = Button(
+        	self,
+        	font=("Roboto", 14),
+        	text="  Busca por Sapato  ",
+        	highlightbackground="white", 
+			highlightcolor="white",
+			bd=0, bg="#ff9198", 
+			activebackground=THECOLOR,
+			activeforeground="white",
+			width=15
+			)
 
-        self.voltar_menu_principal = Button(self, font=("Times New Roman", 14), text="Voltar", width=13,
-                                            highlightcolor="white", highlightbackground="white", bg="white",
-                                            fg=THECOLOR, activebackground=THECOLOR, activeforeground="white", bd=0,
-                                            cursor="hand2")
+        self.Busca_p_codigo = Button(
+        	self,
+        	font=("Roboto", 14),
+        	text="  Busca por Código  ",
+        	highlightbackground="white", 
+			highlightcolor="white",
+			bd=0, bg="#ff9198", 
+			activebackground=THECOLOR,
+			activeforeground="white",
+			width=15
+			)
+
+        self.voltar_menu_principal = Button(self,
+        	font=("Roboto", 14),
+        	text="  Voltar  ",
+        	highlightbackground="white", 
+			highlightcolor="white",
+			bd=0, bg="#ff9198", 
+			activebackground=THECOLOR,
+			activeforeground="white",
+			width=15
+			)
 
 
-        self.W = [self.voltar_menu_principal, self.titulo_buscar, self.nome_buscar, self.sapato_buscar,
+        self.W = [self.Busca_p_codigo, self.voltar_menu_principal, self.titulo_buscar, self.nome_buscar, self.sapato_buscar,
                   self.Nome_janela_buscar_entry,
                   self.Sapato_janela_buscar_entry, self.Busca_p_nome, self.Busca_p_sapato]
 
@@ -1490,24 +1754,27 @@ class Programa_Win(Tk):
         self.voltar_menu_principal["command"] = self.voltar_menu_principal_bt_clk
         self.Busca_p_sapato["command"] = lambda: self.janela_listagem_mesmo_tamanho_pe(0)
         self.Busca_p_nome["command"] = lambda: self.janela_listagem_mesmo_nome(0)
+        self.Busca_p_codigo["command"] = lambda: self.janela_listagem_mesmo_codigo(0)
 
 
         # binds
         self.voltar_menu_principal.bind('<Return>', lambda event: self.voltar_menu_principal_bt_clk())
         self.Busca_p_sapato.bind('<Return>', lambda event: self.janela_listagem_mesmo_tamanho_pe(0))
         self.Busca_p_nome.bind('<Return>', lambda event: self.janela_listagem_mesmo_nome(0))
+        self.Busca_p_codigo.bind('<Return>', lambda event: self.janela_listagem_mesmo_codigo(0))
         
 
         # desenhos
 
-        self.titulo_buscar.place(x=AllAling, y=15)
+        self.titulo_buscar.place(x=-25, y=15)
         self.nome_buscar.place(x=LabelAling, y=125)
         self.sapato_buscar.place(x=LabelAling, y=250)
-        self.Nome_janela_buscar_entry.place(x=EntryAling, y=164)
-        self.Sapato_janela_buscar_entry.place(x=EntryAling, y=289)
+        self.Nome_janela_buscar_entry.place(x=EntryAling, y=166)
+        self.Sapato_janela_buscar_entry.place(x=EntryAling, y=291)
         self.Busca_p_nome.place(x=ButtonAling, y=162)
         self.Busca_p_sapato.place(x=ButtonAling, y=287)
-        self.voltar_menu_principal.place(x=ButtonAling, y=350)
+        self.Busca_p_codigo.place(x=ButtonAling, y=354)
+        self.voltar_menu_principal.place(x=ButtonAling, y=425)
 
     # Terminada Abaixo
     def Exclui_bt_clk(self):
@@ -1535,7 +1802,7 @@ class Programa_Win(Tk):
 
             self.janela_clear()
 
-            self.titulo_confirma = Label(self, font=("Times New Roman", 24), text="Confirma?", bg="#fff", width=30,
+            self.titulo_confirma = Label(self, font=("Roboto", 24), text="Confirma?", bg="#fff", width=30,
                                          anchor=CENTER, bd=20)
 
             Tamanhos = []
@@ -1553,87 +1820,87 @@ class Programa_Win(Tk):
 
             # Labels
 
-            self.nome_confirma = Label(self, font=("Times New Roman", 14), text=LabelName[0] + self.lista_clientes[pos][0],
+            self.nome_confirma = Label(self, font=("Roboto", 14), text=LabelName[0] + self.lista_clientes[pos][0],
                                        bg="#fff", width=Tamanhos[0], anchor=W, bd=4)
 
-            self.sapato_confirma = Label(self, font=("Times New Roman", 14),
+            self.sapato_confirma = Label(self, font=("Roboto", 14),
                                          text=LabelName[1] + self.lista_clientes[pos][1], bg="#fff",
                                          width=Tamanhos[0], anchor=W, bd=4)
 
-            self.LarguraPeExcluiConfirma = Label(self, font=("Times New Roman", 14),
+            self.LarguraPeExcluiConfirma = Label(self, font=("Roboto", 14),
                                                  text=LabelName[2] + self.lista_clientes[pos][2], bg="#fff",
                                                  width=Tamanhos[0], anchor=W, bd=4)
 
-            self.NomeResponsavelExcluiConfirma = Label(self, font=("Times New Roman", 14),
+            self.NomeResponsavelExcluiConfirma = Label(self, font=("Roboto", 14),
                                                        text=LabelName[3] + self.lista_clientes[pos][3],
                                                        bg="#fff", width=Tamanhos[0], anchor=W, bd=4)
 
-            self.CpfResponsavelExcluiConfirma = Label(self, font=("Times New Roman", 14),
+            self.CpfResponsavelExcluiConfirma = Label(self, font=("Roboto", 14),
                                                       text=LabelName[4] + self.lista_clientes[pos][4],
                                                       bg="#fff", width=Tamanhos[0], anchor=W, bd=4)
 
-            self.ComprimentoPeExcluiConfirma = Label(self, font=("Times New Roman", 14),
+            self.ComprimentoPeExcluiConfirma = Label(self, font=("Roboto", 14),
                                                      text=LabelName[5] + self.lista_clientes[pos][5],
                                                      bg="#fff", width=Tamanhos[0], anchor=W, bd=4)
 
-            self.CalcanharMedidaExcluiConfirma = Label(self, font=("Times New Roman", 14),
+            self.CalcanharMedidaExcluiConfirma = Label(self, font=("Roboto", 14),
                                                        text=LabelName[6] + self.lista_clientes[pos][6],
                                                        bg="#fff", width=Tamanhos[0], anchor=W, bd=4)
 
-            self.PonteiraExcluiConfirma = Label(self, font=("Times New Roman", 14),
+            self.PonteiraExcluiConfirma = Label(self, font=("Roboto", 14),
                                                 text=LabelName[7] + self.lista_clientes[pos][7], bg="#fff",
                                                 width=Tamanhos[0], anchor=W, bd=4)
 
-            self.IdadeExcluiConfirma = Label(self, font=("Times New Roman", 14),
+            self.IdadeExcluiConfirma = Label(self, font=("Roboto", 14),
                                              text=LabelName[8] + self.lista_clientes[pos][8], bg="#fff",
                                              width=Tamanhos[0], anchor=W, bd=4)
 
-            self.TempoBalletExcluiConfirma = Label(self, font=("Times New Roman", 14),
+            self.TempoBalletExcluiConfirma = Label(self, font=("Roboto", 14),
                                                    text=LabelName[9] + self.lista_clientes[pos][9],
                                                    bg="#fff",
                                                    width=Tamanhos[0], anchor=W, bd=4)
 
-            self.CargaHorariaExcluiConfirma = Label(self, font=("Times New Roman", 14),
+            self.CargaHorariaExcluiConfirma = Label(self, font=("Roboto", 14),
                                                     text=LabelName[10] + self.lista_clientes[pos][10],
                                                     bg="#fff",
                                                     width=Tamanhos[0], anchor=W, bd=4)
 
-            self.EscolaExcluiConfirma = Label(self, font=("Times New Roman", 14),
+            self.EscolaExcluiConfirma = Label(self, font=("Roboto", 14),
                                               text=LabelName[11] + self.lista_clientes[pos][11], bg="#fff",
                                               width=Tamanhos[0], anchor=W, bd=4)
 
-            self.CodigoSapatilhaExcluiConfirma = Label(self, font=("Times New Roman", 14),
+            self.CodigoSapatilhaExcluiConfirma = Label(self, font=("Roboto", 14),
                                                        text=LabelName[12] + self.lista_clientes[pos][12],
                                                        bg="#fff", width=Tamanhos[0], anchor=W, bd=4)
 
-            self.RuaExcluiConfirma = Label(self, font=("Times New Roman", 14),
+            self.RuaExcluiConfirma = Label(self, font=("Roboto", 14),
                                            text=LabelName[13] + self.lista_clientes[pos][13], bg="#fff",
                                            width=Tamanhos[0], anchor=W, bd=4)
 
-            self.NumeroExcluiConfirma = Label(self, font=("Times New Roman", 14),
+            self.NumeroExcluiConfirma = Label(self, font=("Roboto", 14),
                                               text=LabelName[14] + self.lista_clientes[pos][14], bg="#fff",
                                               width=Tamanhos[0], anchor=W, bd=4)
 
-            self.CidadeExcluiConfirma = Label(self, font=("Times New Roman", 14),
+            self.CidadeExcluiConfirma = Label(self, font=("Roboto", 14),
                                               text=LabelName[15] + self.lista_clientes[pos][15], bg="#fff",
                                               width=Tamanhos[0], anchor=W, bd=4)
 
-            self.UFExcluiConfirma = Label(self, font=("Times New Roman", 14),
+            self.UFExcluiConfirma = Label(self, font=("Roboto", 14),
                                           text=LabelName[16] + self.lista_clientes[pos][16], bg="#fff",
                                           width=Tamanhos[0], anchor=W, bd=4)
 
-            self.ObservacaoExcluiConfirma = Label(self, font=("Times New Roman", 14),
+            self.ObservacaoExcluiConfirma = Label(self, font=("Roboto", 14),
                                           text=LabelName[17] + self.lista_clientes[pos][17], bg="#fff",
                                           width=Tamanhos[0], anchor=W, bd=4)
 
             # Buttons
 
-            self.Exclui_bt = Button(self, font=("Times New Roman", 19), text="Confirma", bg="white", fg=THECOLOR, bd=0,
+            self.Exclui_bt = Button(self, font=("Roboto", 19), text="Confirma", bg="white",   bd=0,
                                     activebackground=THECOLOR, activeforeground="white", highlightbackground="white",
                                     highlightcolor="white", cursor="hand2", width=10)
 
-            self.Voltar_exclui_cadastra = Button(self, font=("Times New Roman", 19), text="Voltar", cursor="exchange",
-                                                 bg="white", fg=THECOLOR, bd=0, activebackground=THECOLOR,
+            self.Voltar_exclui_cadastra = Button(self, font=("Roboto", 19), text="Voltar", cursor="exchange",
+                                                 bg="white",   bd=0, activebackground=THECOLOR,
                                                  activeforeground="white", highlightbackground="white", width=10,
                                                  highlightcolor="white")
 
@@ -1689,12 +1956,12 @@ class Programa_Win(Tk):
 
         else:  # Caso não encontre a cliente
             self.janela_clear()
-            self.titulo_confirma_exclui_E = Label(self, font=("Times New Roman", 24), text="Cliente não cadastrada",
+            self.titulo_confirma_exclui_E = Label(self, font=("Roboto", 24), text="Cliente não cadastrada",
                                                   bg="#fff",
                                                   width=30, anchor=CENTER, bd=20)
-            self.Voltar_exclui_confirma_exclui_E = Button(self, font=("Times New Roman", 20), text="Voltar",
+            self.Voltar_exclui_confirma_exclui_E = Button(self, font=("Roboto", 20), text="Voltar",
                                                         command=self.Voltar_exclui_bt_clk, highlightcolor="white", 
-                                                        highlightbackground="white", bg="white", fg=THECOLOR, 
+                                                        highlightbackground="white", bg="white",   
                                                         activebackground=THECOLOR, activeforeground="white",
                                                         bd=0, cursor="hand2" )
 
@@ -1711,33 +1978,33 @@ class Programa_Win(Tk):
         # layout
         
         LabelAling: int = 450
-        EntryAling: int = 465
+        EntryAling: int = 469
 
         # widgets
-        self.titulo_exclui = Label(self, font=("Times New Roman", 24), text="Exclusão de Cliente", bg="#fff",
+        self.titulo_exclui = Label(self, font=("Roboto", 24), text="Exclusão de Cliente", bg="#fff",
                                    width=30, anchor=CENTER, bd=20)
 
                                    
-        self.nome_janela_ecluir_label = Label(self, font=("Times New Roman", 18), text="Nome:", bg="#fff",
+        self.nome_janela_ecluir_label = Label(self, font=("Roboto", 18), text="Nome:", bg="#fff",
                                  width=30, anchor=CENTER, bd=5)
                                  
                                  
         self.Nome_janela_excluir_entry = Entry(
             self, 
-            width = 40, 
+            width = 35, 
             justify = CENTER, 
-            font = ("Times New Roman", 14), 
+            font = ("Roboto", 14), 
             bd = 0, 
             fg = ENTRY_FG_COLOR, 
             bg = ENTRY_BG_COLOR
         )
                                   
-        self.Exclui = Button(self, font=("Times New Roman", 18), text="Excluir", highlightcolor="white", highlightbackground="white",
-                            bg="white", fg=THECOLOR, activebackground=THECOLOR, activeforeground="white", bd=0, cursor="hand2")
+        self.Exclui = Button(self, font=("Roboto", 18), text="Excluir", highlightcolor="white", highlightbackground="white",
+                            bg="white",   activebackground=THECOLOR, activeforeground="white", bd=0, cursor="hand2")
 
         
-        self.voltar_menu_principal = Button(self, font=("Times New Roman", 18), text="Voltar", highlightcolor="white", 
-                                            highlightbackground="white", bg="white", fg=THECOLOR, activebackground=THECOLOR,
+        self.voltar_menu_principal = Button(self, font=("Roboto", 18), text="Voltar", highlightcolor="white", 
+                                            highlightbackground="white", bg="white",   activebackground=THECOLOR,
                                             activeforeground="white", bd=0, cursor="hand2" )
 
         self.W = [self.titulo_exclui, self.nome_janela_ecluir_label, self.Nome_janela_excluir_entry, self.Exclui, self.voltar_menu_principal]
@@ -1757,7 +2024,7 @@ class Programa_Win(Tk):
 
         self.titulo_exclui.place(x=415, y=15)
         self.nome_janela_ecluir_label.place(x=LabelAling, y=125)
-        self.Nome_janela_excluir_entry.place(x=EntryAling, y=164)
+        self.Nome_janela_excluir_entry.place(x=EntryAling, y=166)
         self.Exclui.place(x=600, y=240)
         self.voltar_menu_principal.place(x=700, y=240)
 
@@ -1800,85 +2067,96 @@ class Programa_Win(Tk):
 
         # Labels
 
-        self.Titulo = Label(self, font=("Times New Roman", 24), text=f"Cliente:\t{self.Name}", bg="#fff",
+        self.Titulo = Label(self, font=("Roboto", 24), text=f"Cliente:\t{self.Name}", bg="#fff",
                             width=len(self.Name) + 10, anchor=CENTER, bd=20)
 
-        self.SapatoUsuario = Label(self, font=("Times New Roman", 14), text=LabelName[0]+self.Sapato,
+        self.SapatoUsuario = Label(self, font=("Roboto", 14), text=LabelName[0]+self.Sapato,
                                    bg="#fff", bd=4, width=Tamanhos[0], anchor=W)
 
-        self.LarguraPeUsuario = Label(self, font=("Times New Roman", 14), text=LabelName[1]+self.LarguraPe,
+        self.LarguraPeUsuario = Label(self, font=("Roboto", 14), text=LabelName[1]+self.LarguraPe,
                                       bg="#fff", bd=4, width=Tamanhos[0], anchor=W)
 
-        self.NomeResponsavelUsuario = Label(self, font=("Times New Roman", 14), text=LabelName[2]+self.NomeResponsavel, 
+        self.NomeResponsavelUsuario = Label(self, font=("Roboto", 14), text=LabelName[2]+self.NomeResponsavel, 
                                             bg="#fff", bd=4,
                                             width=Tamanhos[0], anchor=W)
 
-        self.CpfResponsavelUsuario = Label(self, font=("Times New Roman", 14), text=LabelName[3]+self.CpfResponsavel, 
+        self.CpfResponsavelUsuario = Label(self, font=("Roboto", 14), text=LabelName[3]+self.CpfResponsavel, 
                                            bg="#fff", bd=4,
                                            width=Tamanhos[0], anchor=W)
 
-        self.ComprimentoPeUsuario = Label(self, font=("Times New Roman", 14), text=LabelName[4]+self.ComprimentoPe, 
+        self.ComprimentoPeUsuario = Label(self, font=("Roboto", 14), text=LabelName[4]+self.ComprimentoPe, 
                                           bg="#fff", bd=4,
                                           width=Tamanhos[0], anchor=W)
 
-        self.CalcanharMedidaUsuario = Label(self, font=("Times New Roman", 14), text=LabelName[5]+self.CalcanharMedida,
+        self.CalcanharMedidaUsuario = Label(self, font=("Roboto", 14), text=LabelName[5]+self.CalcanharMedida,
                                             bg="#fff", bd=4,
                                             width=Tamanhos[0], anchor=W)
 
-        self.PonteiraUsuario = Label(self, font=("Times New Roman", 14), text=LabelName[6]+self.Ponteira,
+        self.PonteiraUsuario = Label(self, font=("Roboto", 14), text=LabelName[6]+self.Ponteira,
                                      bg="#fff", bd=4, width=Tamanhos[0], anchor=W)
 
-        self.IdadeUsuario = Label(self, font=("Times New Roman", 14), text=LabelName[7]+self.Idade,
+        self.IdadeUsuario = Label(self, font=("Roboto", 14), text=LabelName[7]+self.Idade,
                                   bg="#fff", bd=4, width=Tamanhos[0], anchor=W)
 
-        self.TempoBalletUsuario = Label(self, font=("Times New Roman", 14), text=LabelName[8]+self.TempoBallet,
+        self.TempoBalletUsuario = Label(self, font=("Roboto", 14), text=LabelName[8]+self.TempoBallet,
                                         bg="#fff", bd=4, width=Tamanhos[0], anchor=W)
 
-        self.CargaHorariaUsuario = Label(self, font=("Times New Roman", 14), text=LabelName[9]+self.CargaHoraria,
+        self.CargaHorariaUsuario = Label(self, font=("Roboto", 14), text=LabelName[9]+self.CargaHoraria,
                                          bg="#fff", bd=4, width=Tamanhos[0], anchor=W)
 
-        self.EscolaUsuario = Label(self, font=("Times New Roman", 14), text=LabelName[10]+self.Escola,
+        self.EscolaUsuario = Label(self, font=("Roboto", 14), text=LabelName[10]+self.Escola,
                                    bg="#fff", bd=4, width=Tamanhos[0], anchor=W)
 
-        self.CodigoSapatilhaUsuario = Label(self, font=("Times New Roman", 14), text=LabelName[11]+self.CodigoSapatilha, 
+        self.CodigoSapatilhaUsuario = Label(self, font=("Roboto", 14), text=LabelName[11]+self.CodigoSapatilha, 
                                             bg="#fff", bd=4,
                                             width=Tamanhos[0], anchor=W)
 
-        self.RuaUsuario = Label(self, font=("Times New Roman", 14), text=LabelName[12]+self.Rua,
+        self.RuaUsuario = Label(self, font=("Roboto", 14), text=LabelName[12]+self.Rua,
                                 bg="#fff", bd=4, width=Tamanhos[0], anchor=W)
 
-        self.NumeroUsuario = Label(self, font=("Times New Roman", 14), text=LabelName[13]+self.Numero,
+        self.NumeroUsuario = Label(self, font=("Roboto", 14), text=LabelName[13]+self.Numero,
                                    bg="#fff", bd=4, width=Tamanhos[0], anchor=W)
 
-        self.CidadeUsuario = Label(self, font=("Times New Roman", 14), text=LabelName[14]+self.Cidade,
+        self.CidadeUsuario = Label(self, font=("Roboto", 14), text=LabelName[14]+self.Cidade,
                                    bg="#fff", bd=4, width=Tamanhos[0], anchor=W)
 
-        self.UFUsuario = Label(self, font=("Times New Roman", 14), text=LabelName[15]+self.UF,
+        self.UFUsuario = Label(self, font=("Roboto", 14), text=LabelName[15]+self.UF,
                                bg="#fff", bd=4, width=Tamanhos[0], anchor=W)
 
-        self.ObservacaoUsuario = Label(self, font=("Times New Roman", 14), text=LabelName[16]+self.Observacao,
+        self.ObservacaoUsuario = Label(self, font=("Roboto", 14), text=LabelName[16]+self.Observacao,
                                bg="#fff", bd=4, width=Tamanhos[0], anchor=W)
 
                                
         
-        self.EditarBotao = Button(self, font=("Times New Roman", 18), text="Editar", bd=0, bg="white", fg=THECOLOR, width=10,
-                               activebackground=THECOLOR, activeforeground="white", highlightcolor="white", cursor="hand2",
-                               highlightbackground="white")
+        self.EditarBotao = Button(
+        	self,
+        	font=("Roboto", 18),
+        	text=" Editar ",
+        	highlightbackground="white", 
+			highlightcolor="white",
+			bd=0, bg="#ff9198", 
+			activebackground=THECOLOR,
+			activeforeground="white",
+			width=10
+			)
 
-        self.VoltaBotao = Button(self, font=("Times New Roman", 18), text="Voltar", bd=0, bg="white", fg=THECOLOR, width=10,
-                               activebackground=THECOLOR, activeforeground="white", highlightcolor="white", cursor="hand2",
-                               highlightbackground="white")
+        self.VoltaBotao = Button(
+        	self,
+        	font=("Roboto", 18),
+        	text=" Voltar ",
+        	highlightbackground="white", 
+			highlightcolor="white",
+			bd=0, bg="#ff9198", 
+			activebackground=THECOLOR,
+			activeforeground="white",
+			width=10
+			)
         
         self.EditarBotao['command'] = lambda: self.janela_editar(self.Name, SapatoOuNome)
         self.EditarBotao.bind('<Return>', lambda event: self.janela_editar(self.Name, SapatoOuNome))
         
-        if SapatoOuNome == 'nome':
-            self.VoltaBotao['command'] = lambda: self.janela_listagem_mesmo_nome(0)
-            self.VoltaBotao.bind('<Return>', lambda event: self.janela_listagem_mesmo_nome(0))
-        
-        else:
-            self.VoltaBotao['command'] = lambda: self.janela_listagem_mesmo_tamanho_pe(0)
-            self.VoltaBotao.bind('<Return>', lambda event: self.janela_listagem_mesmo_tamanho_pe(0))
+        self.VoltaBotao['command'] = lambda: self.janela_buscar()
+        self.VoltaBotao.bind('<Return>', lambda event: self.janela_buscar())
 
         self.Titulo.place(x=430, y=15)
 
@@ -1945,7 +2223,7 @@ class Programa_Win(Tk):
                     frameArchivo,
                     font = ( 'Roboto', 20 ),
                     text = textLabelArchivo,
-                    width = 78,
+                    width = int(0.0535 * ScreenWidth),
                     bg = '#FFF',
                     anchor = 'w'
                 )
@@ -1961,12 +2239,11 @@ class Programa_Win(Tk):
                 
                 botaoArchivo = Button(
                     frameArchivo,
-                    font=("Times New Roman", 14),
-                    text="Abrir", bg="#ffebff",
+                    font=("Roboto", 12),
+                    text="Abrir", bg="#ff9198",
                     highlightcolor="white", 
                     cursor='hand2',
                     highlightbackground="white", 
-                    fg=THECOLOR, 
                     height=1,
                     width = 8,
                     activebackground=THECOLOR, 
@@ -2057,7 +2334,7 @@ class Programa_Win(Tk):
         scrollableFrame = ScrollableFrame(
             self,
             wrapJanelaPlanilhas,
-            width=1316, 
+            width=1450, 
             height=512,
             bg=BGCOLOR,
             highlightbackground='#facacd'
@@ -2124,18 +2401,17 @@ class Programa_Win(Tk):
 
         Espaçamento: int = 150
         TamX: int = 445
-        self.W = []
         self.Verify = False
 
         # fundo
 
         # widgets
-        self.titulo = Label(self, font=("Times New Roman", 24), text="Clientes Gaynor", bg="#fff", width=75,
+        self.titulo = Label(self, font=("Roboto Lt", 40), text="Clientes Gaynor", bg="#fff", width=50,
                             anchor=CENTER, bd=20)
 
         self.cadastrar_bt = Button(
             self, 
-            font=("Times New Roman", 16), 
+            font=("Roboto", 16), 
             text="Cadastrar", 
             width=40, 
             fg="black",
@@ -2147,7 +2423,7 @@ class Programa_Win(Tk):
                                     
         self.buscar_bt = Button(
             self, 
-            font=("Times New Roman", 16), 
+            font=("Roboto", 16), 
             text="Buscar", 
             width=40, 
             fg="black",
@@ -2159,7 +2435,7 @@ class Programa_Win(Tk):
 
         self.excluir_bt = Button(
             self, 
-            font=("Times New Roman", 16), 
+            font=("Roboto", 16), 
             text="Excluir", 
             width=40, 
             fg="black",
@@ -2171,7 +2447,7 @@ class Programa_Win(Tk):
 
         self.planilhas_bt = Button(
             self, 
-            font=("Times New Roman", 16), 
+            font=("Roboto", 16), 
             text="Administrativo", 
             width=40, 
             fg="black",
@@ -2201,13 +2477,13 @@ class Programa_Win(Tk):
 
 
         # desenho dos botoes
-        self.titulo.place(x=0, y=15)
+        self.titulo.place(x=-75, y=15)
         self.cadastrar_bt.place(x=TamX, y=Espaçamento)
         self.buscar_bt.place(x=TamX, y=Espaçamento + 90)
         self.excluir_bt.place(x=TamX, y=Espaçamento + 180)
         self.planilhas_bt.place(x=TamX, y=Espaçamento + 270)
 
-
+    # Terminada Abaixo
     def janela_principal_sessao_iniciada_outro_pc(self):
         
         Espaçamento: int = 150
@@ -2218,18 +2494,18 @@ class Programa_Win(Tk):
         # fundo
 
         # widgets
-        self.titulo = Label(
+        self.titulo_outro_pc = Label(
             self, 
-            font=("Times New Roman", 24), 
+            font=("Roboto", 24), 
             text="Clientes Gaynor", 
             bg="#fff", 
             width=75,
             anchor=CENTER, 
             bd=20
         )
-        self.buscar_bt = Button(
+        self.buscar_bt_outro_pc = Button(
             self, 
-            font=("Times New Roman", 16), 
+            font=("Roboto", 16), 
             text="Buscar", 
             width=40, 
             fg="black",
@@ -2239,9 +2515,9 @@ class Programa_Win(Tk):
             highlightbackground=THECOLOR
         )
 
-        self.planilhas_bt = Button(
+        self.planilhas_bt_outro_pc = Button(
             self, 
-            font=("Times New Roman", 16), 
+            font=("Roboto", 16), 
             text="Administrativo", 
             width=40, 
             fg="black",
@@ -2269,22 +2545,23 @@ class Programa_Win(Tk):
 
         
         img = PhotoImage(file='./assets/sessao24.png')
-        labelIconeSessaoAberta = Label(
+        buttonIconeSessaoAberta = Button(
             self.frameSessaoAberta,
             font=("Roboto", 14),
             image = img,
+            relief='flat',
             bg=BGCOLOR,
             anchor = 'center'
         )
-        labelIconeSessaoAberta.image = img
+        buttonIconeSessaoAberta.image = img
 
-        labelIconeSessaoAberta.grid(
+        buttonIconeSessaoAberta.grid(
             row=0,
             column=0
         )
         
-        labelIconeSessaoAberta.bind("<Enter>", lambda event: labelIconeSessaoAberta_onEnter())
-        def labelIconeSessaoAberta_onEnter():
+        buttonIconeSessaoAberta.bind("<Enter>", lambda event: buttonIconeSessaoAberta_onEnter())
+        def buttonIconeSessaoAberta_onEnter():
             labelSessaoAberta.grid(
                 row=0, 
                 column=1,
@@ -2293,32 +2570,40 @@ class Programa_Win(Tk):
             )
 
             
-        labelIconeSessaoAberta.bind("<Leave>", lambda event: labelIconeSessaoAberta_onLeave())
-        def labelIconeSessaoAberta_onLeave():
+        buttonIconeSessaoAberta.bind("<Leave>", lambda event: buttonIconeSessaoAberta_onLeave())
+        def buttonIconeSessaoAberta_onLeave():
             labelSessaoAberta.grid_forget()
         
         
         
         
-        self.W = [self.planilhas_bt, self.titulo, self.buscar_bt]
+        self.W = [self.planilhas_bt_outro_pc, self.titulo_outro_pc, self.buscar_bt_outro_pc, self.frameSessaoAberta]
 
         # comando dos botoes
         
-        self.buscar_bt["command"] = self.janela_buscar
-        self.planilhas_bt['command'] = lambda: botaoListarArchives_onClick()
+        self.buscar_bt_outro_pc["command"] = self.janela_buscar
+        self.planilhas_bt_outro_pc['command'] = lambda: botaoListarArchives_onClick()
         def botaoListarArchives_onClick():
             self.janela_clear()
             self.janela_planilhas(self.initialDir, True)
         
+        buttonIconeSessaoAberta['command'] = lambda: buttonIconeSessaoAberta_onClick()
+        def buttonIconeSessaoAberta_onClick():
+        	salvaSessao(False)
+        	self.janela_clear()
+        	self.sessaoAberta = False
+        	self.janela_principal()
+
+
         # binds
-        self.buscar_bt.bind('<Return>', lambda event: self.janela_buscar())
-        self.planilhas_bt.bind('<Return>', lambda event: self.botaoListarArchives_onClick())
+        self.buscar_bt_outro_pc.bind('<Return>', lambda event: self.janela_buscar())
+        self.planilhas_bt_outro_pc.bind('<Return>', lambda event: self.botaoListarArchives_onClick())
 
 
         # desenho dos botoes
-        self.titulo.place(x=0, y=15)
-        self.buscar_bt.place(x=TamX, y=Espaçamento)
-        self.planilhas_bt.place(x=TamX, y=Espaçamento+90)
+        self.titulo_outro_pc.place(x=0, y=15)
+        self.buscar_bt_outro_pc.place(x=TamX, y=Espaçamento)
+        self.planilhas_bt_outro_pc.place(x=TamX, y=Espaçamento+90)
         self.frameSessaoAberta.place(
             x = 7,
             y = 20
@@ -2327,6 +2612,7 @@ class Programa_Win(Tk):
     # Terminada Abaixo
     def __init__(self, sessaoAberta):
         # cria janela do programa
+        self.W = []
         self.sessaoAberta = sessaoAberta
         self.lista_clientes = carregaListaClientes()
 
@@ -2347,8 +2633,7 @@ class Programa_Win(Tk):
         self.mainloop()
 
         
-        
-        
+ScreenWidth = ctypes.windll.user32.GetSystemMetrics(0)
 BGCOLOR: str = '#fecdd0'
 THECOLOR: str = "#f2c7c9"
 ENTRY_FG_COLOR: str = '#000'
@@ -2360,6 +2645,7 @@ args = '/background'
 subprocess.Popen([program, args]).pid
 # carrega sessão
 sessaoAberta = carregaSessao()
+# sessaoAberta = True
 # checa: bool => if true:
 if sessaoAberta:
 #   Instancia Programa_Win com flag para janela inicio planilhas(
